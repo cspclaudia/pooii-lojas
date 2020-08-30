@@ -15,10 +15,10 @@ namespace Lojas.Models
                     DbContextOptions<LojasContext>>()))
             {
                 // Look for any Lojas.
-                if (context.Loja.Any())
-                {
-                    return;   // DB has been seeded
-                }
+                // if (context.Loja.Any())
+                // {
+                //     return;   // DB has been seeded
+                // }
 
                 // context.Loja.AddRange(
                 //     new Loja
@@ -27,30 +27,6 @@ namespace Lojas.Models
                 //         ReleaseDate = DateTime.Parse("1989-2-12"),
                 //         Genre = "Romantic Comedy",
                 //         Price = 7.99M
-                //     },
-
-                //     new Loja
-                //     {
-                //         Title = "Ghostbusters ",
-                //         ReleaseDate = DateTime.Parse("1984-3-13"),
-                //         Genre = "Comedy",
-                //         Price = 8.99M
-                //     },
-
-                //     new Loja
-                //     {
-                //         Title = "Ghostbusters 2",
-                //         ReleaseDate = DateTime.Parse("1986-2-23"),
-                //         Genre = "Comedy",
-                //         Price = 9.99M
-                //     },
-
-                //     new Loja
-                //     {
-                //         Title = "Rio Bravo",
-                //         ReleaseDate = DateTime.Parse("1959-4-15"),
-                //         Genre = "Western",
-                //         Price = 3.99M
                 //     }
                 // );
                 context.SaveChanges();
