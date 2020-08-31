@@ -1,8 +1,20 @@
-﻿@{
+﻿@model IEnumerable<Lojas.Models.Estoque>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">CiA</h1><br>
+</div>
+<div>
+    <p>
+        <a href="../Produto/Index">Dados dos Produtos</a>
+    </p>
+    <p>
+        <a href="../Estoque/Index">Resumo Geral dos Estoques</a>
+    </p>
+    <p>
+        <a href="../Pedido/Index">Resumo Geral das Vendas</a>
+    </p>
 </div>

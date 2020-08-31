@@ -8,21 +8,6 @@ namespace Lojas.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Pedido",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Cliente = table.Column<string>(nullable: true),
-                    Data = table.Column<DateTime>(nullable: false),
-                    Valor = table.Column<decimal>(type: "decimal(18, 2)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Pedido", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Produto",
                 columns: table => new
                 {
@@ -34,27 +19,6 @@ namespace Lojas.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Produto", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Entrega",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Destino = table.Column<string>(nullable: true),
-                    Valor = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
-                    PedidoId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Entrega", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Entrega_Pedido_PedidoId",
-                        column: x => x.PedidoId,
-                        principalTable: "Pedido",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -74,6 +38,70 @@ namespace Lojas.Migrations
                         name: "FK_Estoque_Produto_ProdutoId",
                         column: x => x.ProdutoId,
                         principalTable: "Produto",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Loja",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Nome = table.Column<string>(nullable: true),
+                    Local = table.Column<string>(nullable: true),
+                    EstoqueId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Loja", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Loja_Estoque_EstoqueId",
+                        column: x => x.EstoqueId,
+                        principalTable: "Estoque",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Pedido",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Cliente = table.Column<string>(nullable: true),
+                    Data = table.Column<DateTime>(nullable: false),
+                    Valor = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
+                    LojaId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Pedido", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Pedido_Loja_LojaId",
+                        column: x => x.LojaId,
+                        principalTable: "Loja",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Entrega",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Destino = table.Column<string>(nullable: true),
+                    Valor = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
+                    PedidoId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Entrega", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Entrega_Pedido_PedidoId",
+                        column: x => x.PedidoId,
+                        principalTable: "Pedido",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -105,27 +133,6 @@ namespace Lojas.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Loja",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Nome = table.Column<string>(nullable: true),
-                    Local = table.Column<string>(nullable: true),
-                    EstoqueId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Loja", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Loja_Estoque_EstoqueId",
-                        column: x => x.EstoqueId,
-                        principalTable: "Estoque",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_Entrega_PedidoId",
                 table: "Entrega",
@@ -140,6 +147,11 @@ namespace Lojas.Migrations
                 name: "IX_Loja_EstoqueId",
                 table: "Loja",
                 column: "EstoqueId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Pedido_LojaId",
+                table: "Pedido",
+                column: "LojaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Produto_Pedido_PedidoId",
@@ -158,16 +170,16 @@ namespace Lojas.Migrations
                 name: "Entrega");
 
             migrationBuilder.DropTable(
-                name: "Loja");
-
-            migrationBuilder.DropTable(
                 name: "Produto_Pedido");
 
             migrationBuilder.DropTable(
-                name: "Estoque");
+                name: "Pedido");
 
             migrationBuilder.DropTable(
-                name: "Pedido");
+                name: "Loja");
+
+            migrationBuilder.DropTable(
+                name: "Estoque");
 
             migrationBuilder.DropTable(
                 name: "Produto");

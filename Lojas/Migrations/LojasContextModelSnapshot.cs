@@ -94,10 +94,15 @@ namespace Lojas.Migrations
                     b.Property<DateTime>("Data")
                         .HasColumnType("TEXT");
 
+                    b.Property<int?>("LojaId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<decimal>("Valor")
                         .HasColumnType("decimal(18, 2)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("LojaId");
 
                     b.ToTable("Pedido");
                 });
@@ -162,6 +167,13 @@ namespace Lojas.Migrations
                     b.HasOne("Lojas.Models.Estoque", "Estoque")
                         .WithMany()
                         .HasForeignKey("EstoqueId");
+                });
+
+            modelBuilder.Entity("Lojas.Models.Pedido", b =>
+                {
+                    b.HasOne("Lojas.Models.Loja", "Loja")
+                        .WithMany()
+                        .HasForeignKey("LojaId");
                 });
 
             modelBuilder.Entity("Lojas.Models.Produto_Pedido", b =>

@@ -14,5 +14,6 @@ namespace Lojas.Models
 
         [Column (TypeName = "decimal(18, 2)")]
         public decimal Valor { get; set; }
+        public Loja Loja { get; set; }
     }
 }

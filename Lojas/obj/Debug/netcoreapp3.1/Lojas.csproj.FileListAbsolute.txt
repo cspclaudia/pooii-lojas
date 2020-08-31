@@ -20,7 +20,6 @@ C:\Users\cspcl\Documents\GitHub\pooii-lojas\Lojas\obj\Debug\netcoreapp3.1\Lojas.
 C:\Users\cspcl\Documents\GitHub\pooii-lojas\Lojas\obj\Debug\netcoreapp3.1\Lojas.TagHelpers.output.cache
 C:\Users\cspcl\Documents\GitHub\pooii-lojas\Lojas\obj\Debug\netcoreapp3.1\Lojas.RazorCoreGenerate.cache
 C:\Users\cspcl\Documents\GitHub\pooii-lojas\Lojas\obj\Debug\netcoreapp3.1\Razor\Views\Home\Index.cshtml.g.cs
-C:\Users\cspcl\Documents\GitHub\pooii-lojas\Lojas\obj\Debug\netcoreapp3.1\Razor\Views\Home\Privacy.cshtml.g.cs
 C:\Users\cspcl\Documents\GitHub\pooii-lojas\Lojas\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Error.cshtml.g.cs
 C:\Users\cspcl\Documents\GitHub\pooii-lojas\Lojas\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Layout.cshtml.g.cs
 C:\Users\cspcl\Documents\GitHub\pooii-lojas\Lojas\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_ValidationScriptsPartial.cshtml.g.cs
@@ -205,3 +204,4 @@ C:\Users\cspcl\Documents\GitHub\pooii-lojas\Lojas\obj\Debug\netcoreapp3.1\Razor\
 C:\Users\cspcl\Documents\GitHub\pooii-lojas\Lojas\obj\Debug\netcoreapp3.1\Razor\Views\ProdutoPedido\Details.cshtml.g.cs
 C:\Users\cspcl\Documents\GitHub\pooii-lojas\Lojas\obj\Debug\netcoreapp3.1\Razor\Views\ProdutoPedido\Edit.cshtml.g.cs
 C:\Users\cspcl\Documents\GitHub\pooii-lojas\Lojas\obj\Debug\netcoreapp3.1\Razor\Views\ProdutoPedido\Index.cshtml.g.cs
+C:\Users\cspcl\Documents\GitHub\pooii-lojas\Lojas\obj\Debug\netcoreapp3.1\Razor\Views\Home\Privacy.cshtml.g.cs
