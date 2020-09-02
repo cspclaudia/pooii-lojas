@@ -9,7 +9,6 @@ namespace Lojas.Models
         public int Id { get; set; }
         public string Nome { get; set; }
         public string Local { get; set; }
-        public Estoque Estoque { get; set; }
 
         // [Display (Name = "Release Date")]
         // [DataType (DataType.Date)]

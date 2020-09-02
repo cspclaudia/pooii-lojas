@@ -44,8 +44,8 @@ namespace Lojas.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Local")
-                        .HasColumnType("TEXT");
+                    b.Property<int?>("LojaId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int?>("ProdutoId")
                         .HasColumnType("INTEGER");
@@ -54,6 +54,8 @@ namespace Lojas.Migrations
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("LojaId");
 
                     b.HasIndex("ProdutoId");
 
@@ -66,9 +68,6 @@ namespace Lojas.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("EstoqueId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Local")
                         .HasColumnType("TEXT");
 
@@ -76,8 +75,6 @@ namespace Lojas.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("EstoqueId");
 
                     b.ToTable("Loja");
                 });
@@ -157,16 +154,13 @@ namespace Lojas.Migrations
 
             modelBuilder.Entity("Lojas.Models.Estoque", b =>
                 {
+                    b.HasOne("Lojas.Models.Loja", "Loja")
+                        .WithMany()
+                        .HasForeignKey("LojaId");
+
                     b.HasOne("Lojas.Models.Produto", "Produto")
                         .WithMany()
                         .HasForeignKey("ProdutoId");
-                });
-
-            modelBuilder.Entity("Lojas.Models.Loja", b =>
-                {
-                    b.HasOne("Lojas.Models.Estoque", "Estoque")
-                        .WithMany()
-                        .HasForeignKey("EstoqueId");
                 });
 
             modelBuilder.Entity("Lojas.Models.Pedido", b =>

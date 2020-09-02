@@ -54,7 +54,7 @@ namespace Lojas.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Local,Quantidade")] Estoque estoque)
+        public async Task<IActionResult> Create([Bind("Id,Quantidade")] Estoque estoque)
         {
             if (ModelState.IsValid)
             {
@@ -63,6 +63,14 @@ namespace Lojas.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(estoque);
+        }
+
+        public async Task<IActionResult> Listar() 
+        {
+            var responseLoja = await _context.Loja.ToListAsync();
+            var responseProduto = await _context.Produto.ToListAsync();
+
+            return Json(new{Loja = responseLoja, Produto = responseProduto});
         }
 
         // GET: Estoque/Edit/5

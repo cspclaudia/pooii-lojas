@@ -4,7 +4,7 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<h1>Inserir</h1>
 
 <h4>Estoque</h4>
 <hr />
@@ -12,20 +12,11 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Local" class="control-label"></label>
-                <input asp-for="Local" class="form-control" />
-                <span asp-validation-for="Local" class="text-danger"></span>
-            </div>
+            
             <div class="form-group">
                 <label asp-for="Quantidade" class="control-label"></label>
                 <input asp-for="Quantidade" class="form-control" />
                 <span asp-validation-for="Quantidade" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Produto" class="control-label"></label>
-                <input asp-for="Produto" class="form-control" />
-                <span asp-validation-for="Produto" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -34,10 +25,44 @@
     </div>
 </div>
 
+<div class="form-group">
+    <label class="control-label"></label>
+    <select class="form-control" id="loja" name="loja">
+    </select>
+    <span class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label class="control-label"></label>
+    <select class="form-control" id="produto" name="produto">
+    </select>
+    <span class="text-danger"></span>
+</div>
+
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Voltar</a>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        debugger
+        $(document).ready(function () {
+            $.ajax({
+                type: 'POST',
+                url: "/Estoque/Listar",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (json) {
+                    $.each(json.loja, function (key, value) {
+                        $('#loja').append(`<option value=${value.id}>${value.nome} </option>`);
+                    });
+                    $.each(json.produto, function (key, value) {
+                        $('#produto').append(`<option value=${value.id}>${value.nome} </option>`);
+                    });
+                }
+            });
+        });
+    </script>
 }
+
+

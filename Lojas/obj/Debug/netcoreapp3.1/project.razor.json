@@ -14467,11 +14467,6 @@
       "FileKind": "mvc"
     },
     {
-      "FilePath": "c:\\Users\\cspcl\\Documents\\GitHub\\pooii-lojas\\Lojas\\Views\\Home\\Privacy.cshtml",
-      "TargetPath": "Views\\Home\\Privacy.cshtml",
-      "FileKind": "mvc"
-    },
-    {
       "FilePath": "c:\\Users\\cspcl\\Documents\\GitHub\\pooii-lojas\\Lojas\\Views\\Entrega\\Details.cshtml",
       "TargetPath": "Views\\Entrega\\Details.cshtml",
       "FileKind": "mvc"
