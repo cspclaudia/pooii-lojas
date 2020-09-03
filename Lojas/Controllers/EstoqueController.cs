@@ -46,6 +46,8 @@ namespace Lojas.Controllers
         // GET: Estoque/Create
         public IActionResult Create()
         {
+            ViewBag.Lojas = _context.Loja.ToList ();
+            ViewBag.Produtos = _context.Produto.ToList ();
             return View();
         }
 
@@ -54,8 +56,9 @@ namespace Lojas.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Quantidade")] Estoque estoque)
-        {
+        public async Task<IActionResult> Create([Bind("Id,Quantidade,Loja,Produto")] Estoque estoque)
+        {   
+            Console.WriteLine($"Teste: {estoque}");
             if (ModelState.IsValid)
             {
                 _context.Add(estoque);

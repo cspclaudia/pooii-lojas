@@ -14,12 +14,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Produto" class="control-label"></label>
-                @* <input asp-for="Produto" class="form-control" /> *@
-                <select class="custom-select">
-                    <option selected>Selecione o Produto</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+                <select class="form-control" id="produto" name="produto">
                 </select>
                 <span asp-validation-for="Produto" class="text-danger"></span>
             </div>
@@ -29,7 +24,7 @@
                 <span asp-validation-for="Quantidade" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Confirmar" class="btn btn-primary" />
             </div>
         </form>
     </div>
@@ -41,4 +36,19 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                type: 'POST',
+                url: "/Estoque/Listar",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (json) {
+                    $.each(json.produto, function (key, value) {
+                        $('#produto').append(`<option value=${value.id}>${value.nome} </option>`);
+                    });
+                }
+            });
+        });
+    </script>
 }

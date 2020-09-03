@@ -24,22 +24,17 @@
             </div> *@
             <div class="form-group">
                 <label asp-for="Loja" class="control-label"></label>
-                @* <input asp-for="Produto" class="form-control" /> *@
-                <select class="custom-select">
-                    <option selected>Selecione a Loja</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+                <select class="form-control" id="loja" name="loja">
                 </select>
                 <span asp-validation-for="Loja" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            @* <div class="form-group">
                 <label asp-for="Valor" class="control-label"></label>
                 <input asp-for="Valor" class="form-control" />
                 <span asp-validation-for="Valor" class="text-danger"></span>
-            </div>
+            </div> *@
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Confirmar" class="btn btn-primary" />
             </div>
         </form>
     </div>
@@ -51,4 +46,22 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                type: 'POST',
+                url: "/Estoque/Listar",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (json) {
+                    $.each(json.loja, function (key, value) {
+                        $('#loja').append(`<option value=${value.id}>${value.nome} </option>`);
+                    });
+                    $.each(json.produto, function (key, value) {
+                        $('#produto').append(`<option value=${value.id}>${value.nome} </option>`);
+                    });
+                }
+            });
+        });
+    </script>
 }

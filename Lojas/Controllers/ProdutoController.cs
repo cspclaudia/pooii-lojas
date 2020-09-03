@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Lojas.Data;
+using Lojas.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Lojas.Data;
-using Lojas.Models;
 
 namespace Lojas.Controllers
 {
@@ -14,39 +14,39 @@ namespace Lojas.Controllers
     {
         private readonly LojasContext _context;
 
-        public ProdutoController(LojasContext context)
+        public ProdutoController (LojasContext context)
         {
             _context = context;
         }
 
         // GET: Produto
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index ()
         {
-            return View(await _context.Produto.ToListAsync());
+            return View (await _context.Produto.ToListAsync ());
         }
 
         // GET: Produto/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details (int? id)
         {
             if (id == null)
             {
-                return NotFound();
+                return NotFound ();
             }
 
             var produto = await _context.Produto
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync (m => m.Id == id);
             if (produto == null)
             {
-                return NotFound();
+                return NotFound ();
             }
 
-            return View(produto);
+            return View (produto);
         }
 
         // GET: Produto/Create
-        public IActionResult Create()
+        public IActionResult Create ()
         {
-            return View();
+            return View ();
         }
 
         // POST: Produto/Create
@@ -54,31 +54,31 @@ namespace Lojas.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome,Valor")] Produto produto)
+        public async Task<IActionResult> Create ([Bind ("Id,Nome,Valor")] Produto produto)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(produto);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                _context.Add (produto);
+                await _context.SaveChangesAsync ();
+                return RedirectToAction (nameof (Index));
             }
-            return View(produto);
+            return View (produto);
         }
 
         // GET: Produto/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit (int? id)
         {
             if (id == null)
             {
-                return NotFound();
+                return NotFound ();
             }
 
-            var produto = await _context.Produto.FindAsync(id);
+            var produto = await _context.Produto.FindAsync (id);
             if (produto == null)
             {
-                return NotFound();
+                return NotFound ();
             }
-            return View(produto);
+            return View (produto);
         }
 
         // POST: Produto/Edit/5
@@ -86,68 +86,68 @@ namespace Lojas.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Valor")] Produto produto)
+        public async Task<IActionResult> Edit (int id, [Bind ("Id,Nome,Valor")] Produto produto)
         {
             if (id != produto.Id)
             {
-                return NotFound();
+                return NotFound ();
             }
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(produto);
-                    await _context.SaveChangesAsync();
+                    _context.Update (produto);
+                    await _context.SaveChangesAsync ();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProdutoExists(produto.Id))
+                    if (!ProdutoExists (produto.Id))
                     {
-                        return NotFound();
+                        return NotFound ();
                     }
                     else
                     {
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction (nameof (Index));
             }
-            return View(produto);
+            return View (produto);
         }
 
         // GET: Produto/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete (int? id)
         {
             if (id == null)
             {
-                return NotFound();
+                return NotFound ();
             }
 
             var produto = await _context.Produto
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync (m => m.Id == id);
             if (produto == null)
             {
-                return NotFound();
+                return NotFound ();
             }
 
-            return View(produto);
+            return View (produto);
         }
 
         // POST: Produto/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost, ActionName ("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed (int id)
         {
-            var produto = await _context.Produto.FindAsync(id);
-            _context.Produto.Remove(produto);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var produto = await _context.Produto.FindAsync (id);
+            _context.Produto.Remove (produto);
+            await _context.SaveChangesAsync ();
+            return RedirectToAction (nameof (Index));
         }
 
-        private bool ProdutoExists(int id)
+        private bool ProdutoExists (int id)
         {
-            return _context.Produto.Any(e => e.Id == id);
+            return _context.Produto.Any (e => e.Id == id);
         }
     }
 }

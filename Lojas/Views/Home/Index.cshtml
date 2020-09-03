@@ -4,7 +4,7 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
+<p id="rData"></p><div class="text-center">
     <h1 class="display-4">MENU</h1><br>
     <p>
         <a href="../Loja/Index">1- Gerenciar Lojas</a>
@@ -23,3 +23,13 @@
     </p>
     </div>
 
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/jscript">
+        var url = "/Home/DataHoraAtual";
+        $.get(url, null, function (data)
+        {
+           $("#rData").html(data);
+        });
+    </script>
+}

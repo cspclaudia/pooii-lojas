@@ -13,8 +13,8 @@ namespace Lojas.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Nome = table.Column<string>(nullable: true),
-                    Local = table.Column<string>(nullable: true)
+                    Nome = table.Column<string>(nullable: false),
+                    Local = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -27,7 +27,7 @@ namespace Lojas.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Nome = table.Column<string>(nullable: true),
+                    Nome = table.Column<string>(nullable: false),
                     Valor = table.Column<decimal>(type: "decimal(18, 2)", nullable: false)
                 },
                 constraints: table =>
@@ -41,10 +41,10 @@ namespace Lojas.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Cliente = table.Column<string>(nullable: true),
+                    Cliente = table.Column<string>(nullable: false),
                     Data = table.Column<DateTime>(nullable: false),
                     Valor = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
-                    LojaId = table.Column<int>(nullable: true)
+                    LojaId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -64,8 +64,8 @@ namespace Lojas.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Quantidade = table.Column<int>(nullable: false),
-                    ProdutoId = table.Column<int>(nullable: true),
-                    LojaId = table.Column<int>(nullable: true)
+                    ProdutoId = table.Column<int>(nullable: false),
+                    LojaId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -90,9 +90,9 @@ namespace Lojas.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Destino = table.Column<string>(nullable: true),
+                    Destino = table.Column<string>(nullable: false),
                     Valor = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
-                    PedidoId = table.Column<int>(nullable: true)
+                    PedidoId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -112,8 +112,8 @@ namespace Lojas.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Quantidade = table.Column<int>(nullable: false),
-                    ProdutoId = table.Column<int>(nullable: true),
-                    PedidoId = table.Column<int>(nullable: true)
+                    ProdutoId = table.Column<int>(nullable: false),
+                    PedidoId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {

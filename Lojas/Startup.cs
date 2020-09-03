@@ -31,16 +31,18 @@ namespace Lojas
 
             services.AddDbContext<LojasContext> (options =>
             {
-                var connectionString = Configuration.GetConnectionString ("LojasContext");
+                options.UseSqlite (Configuration.GetConnectionString ("LojasContext"));
 
-                if (Environment.IsDevelopment ())
-                {
-                    options.UseSqlite (connectionString);
-                }
-                else
-                {
-                    options.UseSqlServer (connectionString);
-                }
+                // var connectionString = Configuration.GetConnectionString ("LojasContext");
+
+                // if (Environment.IsDevelopment ())
+                // {
+                //     options.UseSqlite (connectionString);
+                // }
+                // else
+                // {
+                //     options.UseSqlServer (connectionString);
+                // }
             });
     }
 
