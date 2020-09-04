@@ -6,10 +6,13 @@ namespace Lojas.Models
 {
     public class Estoque
     {
-        public int Id { get; set; }
-        public int Quantidade { get; set; }
-        public Produto Produto { get; set; }
-        public Loja Loja { get; set; }
+        [Key] public int Id { get; set; }
+        [Required] public int Quantidade { get; set; }
+        [Required] public int LojaId { get; set; }
+        [Required] public int ProdutoId { get; set; }
+        
+        [ForeignKey("LojaId")] public Loja Loja { get; set; }
+        [ForeignKey("ProdutoId")] public Produto Produto { get; set; }
 
     }
 }

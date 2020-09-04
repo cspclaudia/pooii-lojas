@@ -46,7 +46,7 @@ namespace Lojas.Controllers
         // GET: Estoque/Create
         public IActionResult Create()
         {
-            ViewBag.Lojas = _context.Loja.ToList ();
+            ViewData["Lojas"] = new SelectList(_context.Loja, "Id", "Nome");
             ViewBag.Produtos = _context.Produto.ToList ();
             return View();
         }
@@ -56,9 +56,9 @@ namespace Lojas.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Quantidade,Loja,Produto")] Estoque estoque)
+        public async Task<IActionResult> Create([Bind("Id,Quantidade,LojaId,ProdutoId")] Estoque estoque)
         {   
-            Console.WriteLine($"Teste: {estoque}");
+            Console.WriteLine($"Teste: {estoque.LojaId}");
             if (ModelState.IsValid)
             {
                 _context.Add(estoque);
@@ -68,13 +68,13 @@ namespace Lojas.Controllers
             return View(estoque);
         }
 
-        public async Task<IActionResult> Listar() 
-        {
-            var responseLoja = await _context.Loja.ToListAsync();
-            var responseProduto = await _context.Produto.ToListAsync();
+        // public async Task<IActionResult> Listar() 
+        // {
+        //     var responseLoja = await _context.Loja.ToListAsync();
+        //     var responseProduto = await _context.Produto.ToListAsync();
 
-            return Json(new{Loja = responseLoja, Produto = responseProduto});
-        }
+        //     return Json(new{Loja = responseLoja, Produto = responseProduto});
+        // }
 
         // GET: Estoque/Edit/5
         public async Task<IActionResult> Edit(int? id)
