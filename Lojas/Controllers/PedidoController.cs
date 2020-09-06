@@ -67,7 +67,7 @@ namespace Lojas.Controllers
         public IActionResult Create()
         {
             ViewData["LojaId"] = new SelectList(_context.Loja, "Id", "Nome");
-            // ViewData["Itens"] = new SelectList(_context.Estoque, "Id", "Quantidade");
+            ViewData["ProdutoId"] = new SelectList(_context.Produto, "Id", "Nome");
             return View();
         }
 
