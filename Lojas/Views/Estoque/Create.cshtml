@@ -1,123 +1,41 @@
 @model Lojas.Models.Estoque
-@using Lojas.Models
 
 @{
     ViewData["Title"] = "Create";
 }
 
-<h1>Inserir</h1>
+<h1>Create</h1>
 
 <h4>Estoque</h4>
 <hr />
-
-@* @using (Html.BeginForm()) { *@
-
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Loja" class="control-label"></label>
-                @* <select asp-for="Loja" class="form-control" id="loja"></select> *@
-                <select asp-for="Loja" class = "form-control" asp-items="ViewBag.Lojas"></select>
-                @* @Html.DropDownListFor(m => m.Loja,((IEnumerable<Loja>)ViewBag.Lojas).Select(
-                    option => new SelectListItem {
-                        Text = option.Nome,
-                        Value = option.Id.ToString()
-                    }), "Selecione...", new { @class = "form-control" }) *@
-                <span asp-validation-for="Loja" class="text-danger"></span>
+                <select asp-for="LojaId" class ="form-control" asp-items="ViewBag.LojaId"></select>
             </div>
             <div class="form-group">
                 <label asp-for="Produto" class="control-label"></label>
-                @* <select asp-for="Produto" class="form-control" id="produto"></select> *@
-                @Html.DropDownListFor(m => m.Produto,((IEnumerable<Produto>)ViewBag.Produtos).Select(
-                    option => new SelectListItem {
-                        Text = option.Nome,
-                        Value = option.Id.ToString()
-                    }), "Selecione...", new { @class = "form-control" })
-                <span asp-validation-for="Produto" class="text-danger"></span>
+                <select asp-for="ProdutoId" class ="form-control" asp-items="ViewBag.ProdutoId"></select>
             </div>
             <div class="form-group">
                 <label asp-for="Quantidade" class="control-label"></label>
-                <input asp-for="Quantidade" class="form-control" id="quantidade"/>
+                <input asp-for="Quantidade" class="form-control" />
                 <span asp-validation-for="Quantidade" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Confirmar" class="btn btn-primary"/>
+                <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
-@* } *@
-
 <div>
-    <a asp-action="Index">Voltar</a>
+    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script type="text/javascript">
-        
-        // $(document).ready(function () {
-        //     $.ajax({
-        //         type: 'POST',
-        //         url: "/Estoque/Listar",
-        //         dataType: "json",
-        //         contentType: "application/json; charset=utf-8",
-        //         success: function (dados) {
-        //             $.each(dados.loja, function (key, value) {
-        //                 $('#loja').append(`<option value=${value.id}>${value.nome} </option>`);
-        //             });
-        //             $.each(dados.produto, function (key, value) {
-        //                 $('#produto').append(`<option value=${value.id}>${value.nome} </option>`);
-        //             });
-        //         }
-        //     });
-        // });
-
-        // debugger
-        // $('#salvar').click(function () {                
-        //     loja = $('#loja').val(`<option value=${value.id}>${value.id} </option>`);
-        //     produto = $('#produto').val(`<option value=${value.id}>${value.id} </option>`);
-        //     $.ajax({                
-        //         type: "POST", 
-        //         url: "/Create",         
-        //         data: {'loja': loja, 'produto': produto},
-        //         success: function(data) {                     
-        
-        //         }
-        //     });
-        // });
-
-        // $('#salvar').click(function () {
-        //     var url = "/Estoque/Create";
-        //     var loja = $("#loja").val();
-        //     var produto = $("#produto").val();
-        //     $.post({ Loja: nome, Produto: produto }, function (data) {
-        //         $("#msg").html(data);
-        //     });
-        // })
-
-        // function Post() {
-        //     var loja = $("#loja").val();
-        //     var produto = $("#produto").val();
-        //     dados = $("Form").serialize();
-        //     var dados = {        
-        //     Loja: loja,
-        //     Produto: produto
-        // };
-        // jQuery.ajax({
-        //     type: "POST",
-        //     url: "/Estoque/Create",
-        //     dataType: "json",
-        //     data: dados,
-        //     success: function(data)
-        //     {       
-        //         $('#resposta').html('Contato Salvo com sucesso!'); //CRIA A MENSAGEM
-        //     });
-        // }
-    </script>
 }
-
-

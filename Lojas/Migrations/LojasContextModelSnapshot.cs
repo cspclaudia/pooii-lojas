@@ -23,9 +23,10 @@ namespace Lojas.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Destino")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("PedidoId")
+                    b.Property<int>("PedidoId")
                         .HasColumnType("INTEGER");
 
                     b.Property<decimal>("Valor")
@@ -44,10 +45,10 @@ namespace Lojas.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("LojaId")
+                    b.Property<int>("LojaId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("ProdutoId")
+                    b.Property<int>("ProdutoId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("Quantidade")
@@ -69,9 +70,11 @@ namespace Lojas.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Local")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Nome")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -86,12 +89,13 @@ namespace Lojas.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Cliente")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("Data")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("LojaId")
+                    b.Property<int>("LojaId")
                         .HasColumnType("INTEGER");
 
                     b.Property<decimal>("Valor")
@@ -111,6 +115,7 @@ namespace Lojas.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Nome")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<decimal>("Valor")
@@ -127,10 +132,10 @@ namespace Lojas.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("PedidoId")
+                    b.Property<int>("PedidoId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("ProdutoId")
+                    b.Property<int>("ProdutoId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("Quantidade")
@@ -149,36 +154,48 @@ namespace Lojas.Migrations
                 {
                     b.HasOne("Lojas.Models.Pedido", "Pedido")
                         .WithMany()
-                        .HasForeignKey("PedidoId");
+                        .HasForeignKey("PedidoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Lojas.Models.Estoque", b =>
                 {
                     b.HasOne("Lojas.Models.Loja", "Loja")
                         .WithMany()
-                        .HasForeignKey("LojaId");
+                        .HasForeignKey("LojaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Lojas.Models.Produto", "Produto")
                         .WithMany()
-                        .HasForeignKey("ProdutoId");
+                        .HasForeignKey("ProdutoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Lojas.Models.Pedido", b =>
                 {
                     b.HasOne("Lojas.Models.Loja", "Loja")
                         .WithMany()
-                        .HasForeignKey("LojaId");
+                        .HasForeignKey("LojaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Lojas.Models.Produto_Pedido", b =>
                 {
                     b.HasOne("Lojas.Models.Pedido", "Pedido")
                         .WithMany()
-                        .HasForeignKey("PedidoId");
+                        .HasForeignKey("PedidoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Lojas.Models.Produto", "Produto")
                         .WithMany()
-                        .HasForeignKey("ProdutoId");
+                        .HasForeignKey("ProdutoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

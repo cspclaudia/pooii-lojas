@@ -22,7 +22,8 @@ namespace Lojas.Controllers
         // GET: Pedido
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Pedido.ToListAsync());
+            var lojasContext = _context.Pedido.Include(p => p.Loja);
+            return View(await lojasContext.ToListAsync());
         }
 
         // GET: Pedido/Details/5
@@ -34,6 +35,7 @@ namespace Lojas.Controllers
             }
 
             var pedido = await _context.Pedido
+                .Include(p => p.Loja)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (pedido == null)
             {
@@ -43,9 +45,29 @@ namespace Lojas.Controllers
             return View(pedido);
         }
 
+        public async Task<IActionResult> Itens(int? LojaId)
+        {
+            if (LojaId == null)
+            {
+                return NotFound();
+            }
+
+            var item = await _context.Estoque
+                .Include(p => p.Produto)
+                .FirstOrDefaultAsync(m => m.LojaId == LojaId);
+            if (item == null)
+            {
+                return NotFound();
+            }
+
+            return View(item);
+        }
+
         // GET: Pedido/Create
         public IActionResult Create()
         {
+            ViewData["LojaId"] = new SelectList(_context.Loja, "Id", "Nome");
+            // ViewData["Itens"] = new SelectList(_context.Estoque, "Id", "Quantidade");
             return View();
         }
 
@@ -54,15 +76,26 @@ namespace Lojas.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Cliente,Data,Valor")] Pedido pedido)
+        public async Task<IActionResult> Create([Bind("Id,Cliente,Valor,LojaId")] Pedido pedido)
         {
             if (ModelState.IsValid)
             {
+                pedido.Data = DateTime.Now;
                 _context.Add(pedido);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["LojaId"] = new SelectList(_context.Loja, "Id", "Nome", pedido.LojaId);
             return View(pedido);
+        }
+
+        public async Task<JsonResult> ListItens(int LojaId)
+        {
+            var Itens = await _context.Estoque
+                .Include(m => m.Loja)
+                .Include(m => m.Produto)
+                .Where(m => m.LojaId == LojaId).ToListAsync();
+            return new JsonResult(Itens);
         }
 
         // GET: Pedido/Edit/5
@@ -78,6 +111,7 @@ namespace Lojas.Controllers
             {
                 return NotFound();
             }
+            ViewData["LojaId"] = new SelectList(_context.Loja, "Id", "Nome", pedido.LojaId);
             return View(pedido);
         }
 
@@ -86,7 +120,7 @@ namespace Lojas.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Cliente,Data,Valor")] Pedido pedido)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Cliente,Data,Valor,LojaId")] Pedido pedido)
         {
             if (id != pedido.Id)
             {
@@ -113,6 +147,7 @@ namespace Lojas.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["LojaId"] = new SelectList(_context.Loja, "Id", "Nome", pedido.LojaId);
             return View(pedido);
         }
 
@@ -125,6 +160,7 @@ namespace Lojas.Controllers
             }
 
             var pedido = await _context.Pedido
+                .Include(p => p.Loja)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (pedido == null)
             {

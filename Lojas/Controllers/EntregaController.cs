@@ -22,7 +22,8 @@ namespace Lojas.Controllers
         // GET: Entrega
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Entrega.ToListAsync());
+            var lojasContext = _context.Entrega.Include(e => e.Pedido);
+            return View(await lojasContext.ToListAsync());
         }
 
         // GET: Entrega/Details/5
@@ -34,6 +35,7 @@ namespace Lojas.Controllers
             }
 
             var entrega = await _context.Entrega
+                .Include(e => e.Pedido)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (entrega == null)
             {
@@ -46,6 +48,7 @@ namespace Lojas.Controllers
         // GET: Entrega/Create
         public IActionResult Create()
         {
+            ViewData["PedidoId"] = new SelectList(_context.Pedido, "Id", "Cliente");
             return View();
         }
 
@@ -54,7 +57,7 @@ namespace Lojas.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Destino,Valor")] Entrega entrega)
+        public async Task<IActionResult> Create([Bind("Id,Destino,Valor,PedidoId")] Entrega entrega)
         {
             if (ModelState.IsValid)
             {
@@ -62,6 +65,7 @@ namespace Lojas.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["PedidoId"] = new SelectList(_context.Pedido, "Id", "Cliente", entrega.PedidoId);
             return View(entrega);
         }
 
@@ -78,6 +82,7 @@ namespace Lojas.Controllers
             {
                 return NotFound();
             }
+            ViewData["PedidoId"] = new SelectList(_context.Pedido, "Id", "Cliente", entrega.PedidoId);
             return View(entrega);
         }
 
@@ -86,7 +91,7 @@ namespace Lojas.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Destino,Valor")] Entrega entrega)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Destino,Valor,PedidoId")] Entrega entrega)
         {
             if (id != entrega.Id)
             {
@@ -113,6 +118,7 @@ namespace Lojas.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["PedidoId"] = new SelectList(_context.Pedido, "Id", "Cliente", entrega.PedidoId);
             return View(entrega);
         }
 
@@ -125,6 +131,7 @@ namespace Lojas.Controllers
             }
 
             var entrega = await _context.Entrega
+                .Include(e => e.Pedido)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (entrega == null)
             {

@@ -22,7 +22,8 @@ namespace Lojas.Controllers
         // GET: ProdutoPedido
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Produto_Pedido.ToListAsync());
+            var lojasContext = _context.Produto_Pedido.Include(p => p.Pedido).Include(p => p.Produto);
+            return View(await lojasContext.ToListAsync());
         }
 
         // GET: ProdutoPedido/Details/5
@@ -34,6 +35,8 @@ namespace Lojas.Controllers
             }
 
             var produto_Pedido = await _context.Produto_Pedido
+                .Include(p => p.Pedido)
+                .Include(p => p.Produto)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (produto_Pedido == null)
             {
@@ -46,6 +49,8 @@ namespace Lojas.Controllers
         // GET: ProdutoPedido/Create
         public IActionResult Create()
         {
+            ViewData["PedidoId"] = new SelectList(_context.Pedido, "Id", "Id");
+            ViewData["ProdutoId"] = new SelectList(_context.Produto, "Id", "Nome");
             return View();
         }
 
@@ -54,7 +59,7 @@ namespace Lojas.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Quantidade")] Produto_Pedido produto_Pedido)
+        public async Task<IActionResult> Create([Bind("Id,Quantidade,ProdutoId,PedidoId")] Produto_Pedido produto_Pedido)
         {
             if (ModelState.IsValid)
             {
@@ -62,6 +67,8 @@ namespace Lojas.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["PedidoId"] = new SelectList(_context.Pedido, "Id", "Cliente", produto_Pedido.PedidoId);
+            ViewData["ProdutoId"] = new SelectList(_context.Produto, "Id", "Nome", produto_Pedido.ProdutoId);
             return View(produto_Pedido);
         }
 
@@ -78,6 +85,8 @@ namespace Lojas.Controllers
             {
                 return NotFound();
             }
+            ViewData["PedidoId"] = new SelectList(_context.Pedido, "Id", "Cliente", produto_Pedido.PedidoId);
+            ViewData["ProdutoId"] = new SelectList(_context.Produto, "Id", "Nome", produto_Pedido.ProdutoId);
             return View(produto_Pedido);
         }
 
@@ -86,7 +95,7 @@ namespace Lojas.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Quantidade")] Produto_Pedido produto_Pedido)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Quantidade,ProdutoId,PedidoId")] Produto_Pedido produto_Pedido)
         {
             if (id != produto_Pedido.Id)
             {
@@ -113,6 +122,8 @@ namespace Lojas.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["PedidoId"] = new SelectList(_context.Pedido, "Id", "Cliente", produto_Pedido.PedidoId);
+            ViewData["ProdutoId"] = new SelectList(_context.Produto, "Id", "Nome", produto_Pedido.ProdutoId);
             return View(produto_Pedido);
         }
 
@@ -125,6 +136,8 @@ namespace Lojas.Controllers
             }
 
             var produto_Pedido = await _context.Produto_Pedido
+                .Include(p => p.Pedido)
+                .Include(p => p.Produto)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (produto_Pedido == null)
             {

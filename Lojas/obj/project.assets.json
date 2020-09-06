@@ -9070,11 +9070,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\cspcl\\Documents\\GitHub\\pooii-lojas\\Lojas\\Lojas.csproj",
+      "projectUniqueName": "C:\\Users\\cspcl\\Documents\\GitHub\\pooii-lojas-teste\\Lojas\\Lojas.csproj",
       "projectName": "Lojas",
-      "projectPath": "c:\\Users\\cspcl\\Documents\\GitHub\\pooii-lojas\\Lojas\\Lojas.csproj",
+      "projectPath": "C:\\Users\\cspcl\\Documents\\GitHub\\pooii-lojas-teste\\Lojas\\Lojas.csproj",
       "packagesPath": "C:\\Users\\cspcl\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\cspcl\\Documents\\GitHub\\pooii-lojas\\Lojas\\obj\\",
+      "outputPath": "C:\\Users\\cspcl\\Documents\\GitHub\\pooii-lojas-teste\\Lojas\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Microsoft\\Xamarin\\NuGet\\",

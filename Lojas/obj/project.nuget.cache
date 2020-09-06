@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Hb1LjD0ilGYOnzUbNuB1EaYFqw/w8TEl36MfrN1c2esmiajvcnSyPVag4HM2xRUsjgSo5FzIyZsAVjE2m21pRA==",
+  "dgSpecHash": "RUnw3VYhn3j1UfkDKuWvYti6j5QRVMsTKFxKHRs9dIO+uM78emscaiQtcp3pTYHpoOwtxtlVwBnWBmPhtVwykg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\cspcl\\Documents\\GitHub\\pooii-lojas\\Lojas\\Lojas.csproj",
+  "projectFilePath": "C:\\Users\\cspcl\\Documents\\GitHub\\pooii-lojas-teste\\Lojas\\Lojas.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\cspcl\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\3.1.0\\microsoft.aspnetcore.cryptography.internal.3.1.0.nupkg.sha512",
     "C:\\Users\\cspcl\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\3.1.0\\microsoft.aspnetcore.cryptography.keyderivation.3.1.0.nupkg.sha512",

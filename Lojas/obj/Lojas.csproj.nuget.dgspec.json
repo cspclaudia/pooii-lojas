@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\cspcl\\Documents\\GitHub\\pooii-lojas\\Lojas\\Lojas.csproj": {}
+    "C:\\Users\\cspcl\\Documents\\GitHub\\pooii-lojas-teste\\Lojas\\Lojas.csproj": {}
   },
   "projects": {
-    "C:\\Users\\cspcl\\Documents\\GitHub\\pooii-lojas\\Lojas\\Lojas.csproj": {
+    "C:\\Users\\cspcl\\Documents\\GitHub\\pooii-lojas-teste\\Lojas\\Lojas.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\cspcl\\Documents\\GitHub\\pooii-lojas\\Lojas\\Lojas.csproj",
+        "projectUniqueName": "C:\\Users\\cspcl\\Documents\\GitHub\\pooii-lojas-teste\\Lojas\\Lojas.csproj",
         "projectName": "Lojas",
-        "projectPath": "C:\\Users\\cspcl\\Documents\\GitHub\\pooii-lojas\\Lojas\\Lojas.csproj",
+        "projectPath": "C:\\Users\\cspcl\\Documents\\GitHub\\pooii-lojas-teste\\Lojas\\Lojas.csproj",
         "packagesPath": "C:\\Users\\cspcl\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\cspcl\\Documents\\GitHub\\pooii-lojas\\Lojas\\obj\\",
+        "outputPath": "C:\\Users\\cspcl\\Documents\\GitHub\\pooii-lojas-teste\\Lojas\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\",

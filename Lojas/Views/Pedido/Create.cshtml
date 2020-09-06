@@ -4,12 +4,12 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Inserir</h1>
+<h1>Create</h1>
 
 <h4>Pedido</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-3">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -17,51 +17,86 @@
                 <input asp-for="Cliente" class="form-control" />
                 <span asp-validation-for="Cliente" class="text-danger"></span>
             </div>
-            @* <div class="form-group">
-                <label asp-for="Data" class="control-label"></label>
-                <input asp-for="Data" class="form-control" />
-                <span asp-validation-for="Data" class="text-danger"></span>
-            </div> *@
             <div class="form-group">
                 <label asp-for="Loja" class="control-label"></label>
-                <select class="form-control" id="loja" name="loja">
+                <select asp-for="LojaId" class ="form-control" asp-items="ViewBag.LojaId" id="select">
+                    <option>Selecione...</option>
                 </select>
-                <span asp-validation-for="Loja" class="text-danger"></span>
-            </div>
-            @* <div class="form-group">
-                <label asp-for="Valor" class="control-label"></label>
-                <input asp-for="Valor" class="form-control" />
-                <span asp-validation-for="Valor" class="text-danger"></span>
-            </div> *@
-            <div class="form-group">
-                <input type="submit" value="Confirmar" class="btn btn-primary" />
             </div>
         </form>
-    </div>
-</div>
 
-<div>
-    <a asp-action="Index">Voltar</a>
+        <div>
+            <partial name="~/Views/ProdutoPedido/Create.cshtml">
+        </div>
+
+        <div>
+            <a asp-action="Index">Back to List</a>
+        </div>
+    </div> 
+
+    <div class="col-md-4">
+        <div class="row">
+            <h4>Produtos no Carrinho</h4>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="row">
+            <h4>Produtos no Estoque da Loja Selecionada</h4>
+        </div>
+
+        <div class="row">
+            <table id="tabela" class="display">
+                <thead>
+                    <tr>
+                        <th>Produto</th>
+                        <th>Valor</th>
+                        <th>Quantidade</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+
+    <div class="col-md-1 justify-content-center">
+        <input type="submit" value="Finalizar Pedido" class="btn btn-primary" />
+    </div>
+
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script>
-        $(document).ready(function () {
-            $.ajax({
-                type: 'POST',
-                url: "/Estoque/Listar",
-                dataType: "json",
-                contentType: "application/json; charset=utf-8",
-                success: function (json) {
-                    $.each(json.loja, function (key, value) {
-                        $('#loja').append(`<option value=${value.id}>${value.nome} </option>`);
-                    });
-                    $.each(json.produto, function (key, value) {
-                        $('#produto').append(`<option value=${value.id}>${value.nome} </option>`);
-                    });
-                }
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $('#select').on('change', function() {
+            var Id = parseInt(this.value);
+            console.log("Id: ", Id);
+            $('#tabela').dataTable({
+                'ajax': {
+                    'type': "POST",
+                    'url': "/Pedido/ListItens",
+                    'dataType': "json",
+                    'data': {'LojaId': Id},
+                    'dataSrc': function (json) {
+                        var return_data = new Array();
+                        for(var i = 0; i < json.length; i++){
+                            console.log(json[i])
+                            return_data.push({
+                                'produto'   : json[i].produto.nome,
+                                'valor'     : json[i].produto.valor,
+                                'quantidade': json[i].quantidade
+                            })
+                        }
+                        return return_data;
+                    }
+                },
+                'columns': [
+                        {'data': 'produto'},
+                        {'data': 'valor'},
+                        {'data': 'quantidade'}
+                ]
             });
-        });
+        })
+    })
     </script>
 }
