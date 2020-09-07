@@ -27,22 +27,20 @@ namespace Lojas
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices (IServiceCollection services)
         {
+            services.AddDistributedMemoryCache();
+
+            services.AddSession(options =>
+            {
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+                options.IdleTimeout = TimeSpan.FromSeconds(10);
+            });
+
             services.AddControllersWithViews ();
 
             services.AddDbContext<LojasContext> (options =>
             {
                 options.UseSqlite (Configuration.GetConnectionString ("LojasContext"));
-
-                // var connectionString = Configuration.GetConnectionString ("LojasContext");
-
-                // if (Environment.IsDevelopment ())
-                // {
-                //     options.UseSqlite (connectionString);
-                // }
-                // else
-                // {
-                //     options.UseSqlServer (connectionString);
-                // }
             });
     }
 
@@ -65,6 +63,8 @@ namespace Lojas
         app.UseRouting ();
 
         app.UseAuthorization ();
+
+        app.UseSession();
 
         app.UseEndpoints (endpoints =>
         {

@@ -144,7 +144,7 @@
                     destroy: true,
                     'ajax': {
                         'type': "POST",
-                        'url': "/Pedido/LittleCarAdd",
+                        'url': "/ProdutoPedido/CartAdd",
                         'dataType': "json",
                         'data': {
                             'lojaId': Id, 
@@ -171,23 +171,6 @@
                     ]
                 });
             });
-
-            //$('#produtoPedido').click(function() {
-            //    event.preventDefault();
-            //    $.ajax({
-            //        type: 'POST',
-            //        url: "/Pedido/LittleCarAdd",
-            //        dataType: "json",
-            //        data: {
-            //            'lojaId': Id, 
-            //            'produto': $('#produto option:selected').text(), 
-            //            'quantidade': $('#qtd').val()
-            //        },
-            //        success: function (json) {
-            //            console.log("JSON: ", json);
-            //        }
-            //    });
-            //});
         });
     });
     </script>

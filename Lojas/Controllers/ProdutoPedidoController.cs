@@ -47,7 +47,7 @@ namespace Lojas.Controllers
         }
 
         // GET: ProdutoPedido/Create
-        public IActionResult LittleCarAdd()
+        public IActionResult Create()
         {
             ViewData["PedidoId"] = new SelectList(_context.Pedido, "Id", "Id");
             ViewData["ProdutoId"] = new SelectList(_context.Produto, "Id", "Nome");
@@ -72,37 +72,43 @@ namespace Lojas.Controllers
             return View(produto_Pedido);
         }
 
-        // List<Produto_Pedido> carrinho = new List<Produto_Pedido>();
-        // public async Task<JsonResult> LittleCarAdd(int LojaId, [Bind("Id,Quantidade,ProdutoId")] Produto_Pedido item)
-        // {
-        //     Console.WriteLine("Chamou!");
+        public List<Produto_Pedido> carrinho = new List<Produto_Pedido> ();
+        public async Task<JsonResult> CartAdd (
+            int lojaId,
+            string produto,
+            int quantidade)
+        {
+            var itens = await _context.Estoque
+                .Include (m => m.Loja)
+                .Include (m => m.Produto)
+                .Where (m => m.LojaId == lojaId).ToListAsync ();
 
-        //     var estoque = await _context.Estoque
-        //         .Include(m => m.Loja)
-        //         .Include(m => m.Produto)
-        //         .Where(m => m.LojaId == LojaId).ToListAsync();
+            int aux = 0;
+            //Produto_Pedido teste = (Produto_Pedido)Session["carrinho"];
+            foreach (Estoque item in itens)
+            {
+                if (produto == item.Produto.Nome && quantidade <= item.Quantidade)
+                {
+                    Produto_Pedido produto_Pedido = new Produto_Pedido ()
+                    {
+                        Produto = item.Produto,
+                        ProdutoId = item.ProdutoId,
+                        Quantidade = quantidade
+                        
+                    };
+                    carrinho.Add (produto_Pedido);
+                    aux++;
+                    break;
+                }
+            }
+            if (aux == 0)
+            {
+                ViewBag.Message = "O estoque da loja selecionada não possui essa quantidade do produto.";
+            }
+            //var total = carrinho.Select(i => i.Produto).Sum(d => d.Valor);
 
-        //     int aux = 0; Produto produtoAux = new Produto();
-        //     foreach (Estoque produto in estoque)
-        //     {
-        //         if (item.PedidoId == produto.ProdutoId && item.Quantidade <= produto.Quantidade)
-        //         {
-        //             carrinho.Add(item);
-        //             aux++;
-        //             break;
-        //         }
-        //     }
-        //     if (aux == 0)
-        //     {
-        //             Console.WriteLine("O estoque dessa loja não possui o produto ou a quantidade é insuficiente.");
-        //     }
-        //     var total = carrinho.Select(i => i.Produto).Sum(d => d.Valor);
-
-        //     Console.Write("Carrinho: ", carrinho);
-        //     Console.Write("Valor Total: ", carrinho);
-
-        //     return new JsonResult(carrinho, total);
-        // }
+            return new JsonResult (carrinho);
+        }
 
         // GET: ProdutoPedido/Edit/5
         public async Task<IActionResult> Edit(int? id)
