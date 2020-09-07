@@ -19,46 +19,68 @@
             </div>
             <div class="form-group">
                 <label asp-for="Loja" class="control-label"></label>
-                <select asp-for="LojaId" class ="form-control" asp-items="ViewBag.LojaId" id="select">
+                <select asp-for="LojaId" class ="form-control" asp-items="ViewBag.LojaId" id="loja">
                     <option>Selecione...</option>
                 </select>
             </div>
+            <div>
+                <a asp-action="Index">Voltar</a><br>
+            </div>
         </form>
-
-        <div>
-            <partial name="~/Views/ProdutoPedido/Create.cshtml">
-        </div>
-
-        <div>
-            <a asp-action="Index">Voltar</a>
-        </div>
-    </div> 
-
-    <div class="col-md-4">
-        <div class="row">
-            <h4>Produtos no Carrinho</h4>
-        </div>
     </div>
     
-    <div class="col-md-4">
+    <div class="col-md-3" style="margin-left: 1rem; margin-right: 2rem" id="col2">
         <div class="row">
-            <h4>Estoque da Loja Selecionada</h4>
+            <h4>Estoque da Loja</h4>
         </div>
 
         <div class="row">
-            <table id="tabela" class="display">
+            <table id="tabela" class="tableitem table">
                 <thead>
                     <tr>
                         <th>Produto</th>
                         <th>Valor</th>
-                        <th>Quantidade</th>
+                        <th>Qtd</th>
                     </tr>
                 </thead>
             </table>
         </div>
     </div>
 
-    <div class="col-md-1 justify-content-center">
+    <div class="col-md-3" id="col3">
+        <div>
+            @* <partial name="~/Views/ProdutoPedido/Create.cshtml"> *@
+            <form>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label class="control-label">Produto</label>
+                <select class ="form-control" id="produto"></select>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Quantidade</label>
+                <input class="form-control" type="number" id="qtd"/>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Adicionar ao Carrinho" class="btn btn-primary" id="produtoPedido"/>
+            </div>
+        </form>
+        </div>
+    </div> 
+
+    <div class="col-md-2" id="col4">
+        <h4>Carrinho</h4>
+        <table id="carrinho" class="tableitem table">
+            <thead>
+                <tr>
+                    <th>Produto</th>
+                    <th>Valor</th>
+                    <th>Qtd</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+
+    <div class="col-md-1" id="col5">
         <input type="submit" value="Finalizar Pedido" class="btn btn-primary" />
     </div>
 
@@ -68,26 +90,43 @@
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script type="text/javascript">
     $(document).ready(function () {
-        $('#select').on('change', function() {
+        $('#col2').hide();
+        $('#col3').hide();
+        $('#col4').hide();
+        $('#col5').hide();
+        $('#loja').on('change', function() {
+            $('#col2').show();
+            $('#col3').show();
+            $('#col4').show();
+            $('#col5').show();
             var Id = parseInt(this.value);
-            console.log("Id: ", Id);
-            $('#tabela').dataTable({
+            $('#tabela').DataTable({
+                paging: false,
+                searching: false,
+                destroy: true,
                 'ajax': {
                     'type': "POST",
                     'url': "/Pedido/ListItens",
                     'dataType': "json",
-                    'data': {'LojaId': Id},
+                    'data': {'lojaId': Id},
                     'dataSrc': function (json) {
-                        var return_data = new Array();
+                        $('#produto').empty();
+                        $('#produto').append(`<option>Selecione...</option>`);
+                        var data = new Array();
                         for(var i = 0; i < json.length; i++){
-                            console.log(json[i])
-                            return_data.push({
+                            data.push({
                                 'produto'   : json[i].produto.nome,
                                 'valor'     : json[i].produto.valor,
                                 'quantidade': json[i].quantidade
                             })
                         }
-                        return return_data;
+                        for(var i = 0; i < json.length; i++){
+                            $('#produto').append(
+                                `<option value=${json[i].produto.Id}>${json[i].produto.nome}</option>`
+                            );
+                        }
+                        console.log('Dados: ', json);
+                        return data;
                     }
                 },
                 'columns': [
@@ -96,7 +135,60 @@
                         {'data': 'quantidade'}
                 ]
             });
-        })
-    })
+
+            $('#produtoPedido').click(function() {
+                event.preventDefault();
+                $('#carrinho').DataTable({
+                    paging: false,
+                    searching: false,
+                    destroy: true,
+                    'ajax': {
+                        'type': "POST",
+                        'url': "/Pedido/LittleCarAdd",
+                        'dataType': "json",
+                        'data': {
+                            'lojaId': Id, 
+                            'produto': $('#produto option:selected').text(), 
+                            'quantidade': $('#qtd').val()
+                        },
+                        'dataSrc': function (json) {
+                            console.log("JSON: ", json);
+                            var data = new Array();
+                            for(var i = 0; i < json.length; i++){
+                                data.push({
+                                    'produto'   : json[i].produto.nome,
+                                    'valor'     : json[i].produto.valor,
+                                    'quantidade': json[i].quantidade
+                                })
+                            }
+                            return data;
+                        }
+                    },
+                    'columns': [
+                        {'data': 'produto'},
+                        {'data': 'valor'},
+                        {'data': 'quantidade'}
+                    ]
+                });
+            });
+
+            //$('#produtoPedido').click(function() {
+            //    event.preventDefault();
+            //    $.ajax({
+            //        type: 'POST',
+            //        url: "/Pedido/LittleCarAdd",
+            //        dataType: "json",
+            //        data: {
+            //            'lojaId': Id, 
+            //            'produto': $('#produto option:selected').text(), 
+            //            'quantidade': $('#qtd').val()
+            //        },
+            //        success: function (json) {
+            //            console.log("JSON: ", json);
+            //        }
+            //    });
+            //});
+        });
+    });
     </script>
 }

@@ -1,8 +1,8 @@
 @model Lojas.Models.Produto_Pedido
 
 <div class="row">
-    <div class="col-md-12">
-        <form asp-action="Create">
+    <div class="col-md-6">
+        <form>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Produto" class="control-label"></label>
@@ -12,16 +12,51 @@
             </div>
             <div class="form-group">
                 <label asp-for="Quantidade" class="control-label"></label>
-                <input asp-for="Quantidade" class="form-control" />
+                <input asp-for="Quantidade" class="form-control" id="qtd" />
                 <span asp-validation-for="Quantidade" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Adicionar ao Carrinho" class="btn btn-primary" />
+                <input type="submit" value="Adicionar ao Carrinho" class="btn btn-primary" id="produtoPedido" 
+                onclick=LittleCarAdd()/>
             </div>
         </form>
+    </div>
+    <div class="col-md-6">
+        <h4>Carrinho</h4>
+        <p id="carrinho"></p>
+        <p id="total"></p>
     </div>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script>
+    debugger
+        console.log("Qtd: ", $('#qtd').val())
+    </script>
+    <script>
+        $(document).ready(function () {
+            function LittleCarAdd() {
+                var produtoPedido = [];
+                debugger
+                $.ajax({
+                type: 'POST',
+                    url: "/ProdutoPedido/LittleCarAdd",
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    data: {item: produtoPedido},
+                    success: function (json) {
+                        console.log("JSON: ", json);
+                        //$.each(json.produto.nome, function (value) {
+                        //    $('#carrinho').append(`<option value=${value.id}>${value.nome} </option>`);
+                        //});
+                        //$.each(json.produto.nome, function (key, value) {
+                        //    $('#total').append(`<option value=${value.id}>${value.nome} </option>`);
+                        //});
+                    }
+                });
+            }
+        });
+    </script>
 }

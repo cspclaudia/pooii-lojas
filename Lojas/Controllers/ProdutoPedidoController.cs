@@ -47,7 +47,7 @@ namespace Lojas.Controllers
         }
 
         // GET: ProdutoPedido/Create
-        public IActionResult Create()
+        public IActionResult LittleCarAdd()
         {
             ViewData["PedidoId"] = new SelectList(_context.Pedido, "Id", "Id");
             ViewData["ProdutoId"] = new SelectList(_context.Produto, "Id", "Nome");
@@ -71,6 +71,38 @@ namespace Lojas.Controllers
             ViewData["ProdutoId"] = new SelectList(_context.Produto, "Id", "Nome", produto_Pedido.ProdutoId);
             return View(produto_Pedido);
         }
+
+        // List<Produto_Pedido> carrinho = new List<Produto_Pedido>();
+        // public async Task<JsonResult> LittleCarAdd(int LojaId, [Bind("Id,Quantidade,ProdutoId")] Produto_Pedido item)
+        // {
+        //     Console.WriteLine("Chamou!");
+
+        //     var estoque = await _context.Estoque
+        //         .Include(m => m.Loja)
+        //         .Include(m => m.Produto)
+        //         .Where(m => m.LojaId == LojaId).ToListAsync();
+
+        //     int aux = 0; Produto produtoAux = new Produto();
+        //     foreach (Estoque produto in estoque)
+        //     {
+        //         if (item.PedidoId == produto.ProdutoId && item.Quantidade <= produto.Quantidade)
+        //         {
+        //             carrinho.Add(item);
+        //             aux++;
+        //             break;
+        //         }
+        //     }
+        //     if (aux == 0)
+        //     {
+        //             Console.WriteLine("O estoque dessa loja não possui o produto ou a quantidade é insuficiente.");
+        //     }
+        //     var total = carrinho.Select(i => i.Produto).Sum(d => d.Valor);
+
+        //     Console.Write("Carrinho: ", carrinho);
+        //     Console.Write("Valor Total: ", carrinho);
+
+        //     return new JsonResult(carrinho, total);
+        // }
 
         // GET: ProdutoPedido/Edit/5
         public async Task<IActionResult> Edit(int? id)
