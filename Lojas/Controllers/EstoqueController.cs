@@ -63,8 +63,8 @@ namespace Lojas.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(estoque);
-                await _context.SaveChangesAsync();
+                var add = _context.Add(estoque);
+                var salvar = await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             ViewData["LojaId"] = new SelectList(_context.Loja, "Id", "Nome", estoque.LojaId);

@@ -138,38 +138,53 @@
 
             $('#produtoPedido').click(function() {
                 event.preventDefault();
-                $('#carrinho').DataTable({
-                    paging: false,
-                    searching: false,
-                    destroy: true,
-                    'ajax': {
-                        'type': "POST",
-                        'url': "/ProdutoPedido/CartAdd",
-                        'dataType': "json",
-                        'data': {
-                            'lojaId': Id, 
-                            'produto': $('#produto option:selected').text(), 
-                            'quantidade': $('#qtd').val()
-                        },
-                        'dataSrc': function (json) {
-                            console.log("JSON: ", json);
-                            var data = new Array();
-                            for(var i = 0; i < json.length; i++){
-                                data.push({
-                                    'produto'   : json[i].produto.nome,
-                                    'valor'     : json[i].produto.valor,
-                                    'quantidade': json[i].quantidade
-                                })
-                            }
-                            return data;
-                        }
+
+                $.ajax ({
+                    'type': "POST",
+                    'url': "/ProdutoPedido/CartAdd",
+                    'dataType': "json",
+                    'data': {
+                        'lojaId': Id, 
+                        'produto': $('#produto option:selected').text(), 
+                        'quantidade': $('#qtd').val()
                     },
-                    'columns': [
-                        {'data': 'produto'},
-                        {'data': 'valor'},
-                        {'data': 'quantidade'}
-                    ]
+                    'success': function (json) {
+                        console.log("Aqui: ", json);
+                    }
                 });
+
+                //$('#carrinho').DataTable({
+                //    paging: false,
+                //    searching: false,
+                //    destroy: true,
+                //    'ajax': {
+                //        'type': "POST",
+                //        'url': "/ProdutoPedido/CartAdd",
+                //        'dataType': "json",
+                //        'data': {
+                //            'lojaId': Id, 
+                //            'produto': $('#produto option:selected').text(), 
+                //            'quantidade': $('#qtd').val()
+                //        },
+                //        'dataSrc': function (json) {
+                //            console.log("JSON: ", json);
+                //            var data = new Array();
+                //            for(var i = 0; i < json.length; i++){
+                //                data.push({
+                //                    'produto'   : json[i].produto.nome,
+                //                    'valor'     : json[i].produto.valor,
+                //                    'quantidade': json[i].quantidade
+                //                })
+                //            }
+                //            return data;
+                //        }
+                //    },
+                //    'columns': [
+                //        {'data': 'produto'},
+                //        {'data': 'valor'},
+                //        {'data': 'quantidade'}
+                //    ]
+                //});
             });
         });
     });

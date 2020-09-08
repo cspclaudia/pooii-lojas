@@ -83,31 +83,55 @@ namespace Lojas.Controllers
                 .Include (m => m.Produto)
                 .Where (m => m.LojaId == lojaId).ToListAsync ();
 
-            int aux = 0;
-            //Produto_Pedido teste = (Produto_Pedido)Session["carrinho"];
-            foreach (Estoque item in itens)
-            {
-                if (produto == item.Produto.Nome && quantidade <= item.Quantidade)
-                {
-                    Produto_Pedido produto_Pedido = new Produto_Pedido ()
+            Estoque itemEstoque = new Estoque();
+            itemEstoque = itens.Where(m => m.Produto.Nome == produto).FirstOrDefault();
+
+            Produto_Pedido produto_Pedido = new Produto_Pedido ()
                     {
-                        Produto = item.Produto,
-                        ProdutoId = item.ProdutoId,
-                        Quantidade = quantidade
-                        
+                        Quantidade = quantidade,
+                        ProdutoId = itemEstoque.ProdutoId
                     };
-                    carrinho.Add (produto_Pedido);
-                    aux++;
-                    break;
+
+            if(produto_Pedido != null && quantidade <= itemEstoque.Quantidade)
+            {
+                //INSERT INTO Produto_Pedido (Quantidade,ProdutoId)
+                if (ModelState.IsValid)
+                {
+                    var add = _context.Add(produto_Pedido);
+                    var salvar = await _context.SaveChangesAsync();
                 }
             }
-            if (aux == 0)
-            {
-                ViewBag.Message = "O estoque da loja selecionada não possui essa quantidade do produto.";
-            }
+            
+            
+
+            //var item = itens.Where(m => m.Produto.Nome == produto && m.Quantidade == quantidade).FirstOrDefault();
+            // int aux = 0;
+            //Produto_Pedido teste = (Produto_Pedido)Session["carrinho"];
+            // foreach (Estoque item in itens)
+            // {
+            //     if (produto == item.Produto.Nome && quantidade <= item.Quantidade)
+            //     {
+            //         Produto_Pedido produto_Pedido = new Produto_Pedido ()
+            //         {
+            //             Produto = item.Produto,
+            //             ProdutoId = item.ProdutoId,
+            //             Quantidade = quantidade
+                        
+            //         };
+            //         carrinho.Add (produto_Pedido);
+            //         aux++;
+            //         break;
+            //     }
+            // }
+            
+
+            // if (aux == 0)
+            // {
+            //     ViewBag.Message = "O estoque da loja selecionada não possui essa quantidade do produto.";
+            // }
             //var total = carrinho.Select(i => i.Produto).Sum(d => d.Valor);
 
-            return new JsonResult (carrinho);
+            return new JsonResult (produto_Pedido);
         }
 
         // GET: ProdutoPedido/Edit/5
