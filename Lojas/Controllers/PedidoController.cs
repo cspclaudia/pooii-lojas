@@ -71,52 +71,20 @@ namespace Lojas.Controllers
             return View (pedido);
         }
 
-        public async Task<JsonResult> ListItens (int lojaId)
+        public async Task<JsonResult> ListItens (int lojaId, [Bind ("Id,Cliente,LojaId")] Pedido pedido)
         {
             var itens = await _context.Estoque
                 .Include (m => m.Loja)
                 .Include (m => m.Produto)
                 .Where (m => m.LojaId == lojaId).ToListAsync ();
+
+            if (ModelState.IsValid)
+            {
+                _context.Add (pedido);
+                await _context.SaveChangesAsync ();
+            }
             return new JsonResult (itens);
         }
-
-        // public async Task<JsonResult> CartAdd (
-        //     int lojaId,
-        //     string produto,
-        //     int quantidade,
-        //     List<Produto_Pedido> carrinho)
-        // {
-        //     var itens = await _context.Estoque
-        //         .Include (m => m.Loja)
-        //         .Include (m => m.Produto)
-        //         .Where (m => m.LojaId == lojaId).ToListAsync ();
-
-        //     int aux = 0;
-        //     //Produto_Pedido teste = (Produto_Pedido)Session["carrinho"];
-
-        //     foreach (Estoque item in itens)
-        //     {
-        //         if (produto == item.Produto.Nome && quantidade <= item.Quantidade)
-        //         {
-        //             Produto_Pedido produtoPedido = new Produto_Pedido ()
-        //             {
-        //                 ProdutoId = item.ProdutoId,
-        //                 Quantidade = quantidade,
-        //                 Produto = item.Produto
-        //             };
-        //             carrinho.Add (produtoPedido);
-        //             aux++;
-        //             break;
-        //         }
-        //     }
-        //     if (aux == 0)
-        //     {
-        //         ViewBag.Message = "O estoque da loja selecionada não possui essa quantidade do produto.";
-        //     }
-        //     //var total = carrinho.Select(i => i.Produto).Sum(d => d.Valor);
-
-        //     return new JsonResult (carrinho);
-        // }
 
         // GET: Pedido/Edit/5
         public async Task<IActionResult> Edit (int? id)

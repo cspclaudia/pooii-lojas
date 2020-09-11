@@ -42,8 +42,8 @@ namespace Lojas.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Cliente = table.Column<string>(nullable: false),
-                    Data = table.Column<DateTime>(nullable: false),
-                    Valor = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
+                    Data = table.Column<DateTime>(nullable: true),
+                    Valor = table.Column<decimal>(type: "decimal(18, 2)", nullable: true),
                     LojaId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -113,7 +113,7 @@ namespace Lojas.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Quantidade = table.Column<int>(nullable: false),
                     ProdutoId = table.Column<int>(nullable: false),
-                    PedidoId = table.Column<int>(nullable: false)
+                    PedidoId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {

@@ -17,7 +17,7 @@ namespace Lojas.Models
         [Required] 
         public int ProdutoId { get; set; }
 
-        // [Required] 
+        [Required] 
         public int PedidoId { get; set; }
 
 
