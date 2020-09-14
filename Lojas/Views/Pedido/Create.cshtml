@@ -9,8 +9,8 @@
 <h4>Pedido</h4>
 <hr />
 <div class="row">
-    <div class="col-md-3">
-        <form asp-action="Create">
+    <div class="col-md-4" id="col1">
+        <form>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Cliente" class="control-label"></label>
@@ -25,11 +25,12 @@
             </div>
             <div>
                 <a asp-action="Index">Voltar</a><br>
+                <input type="submit" value="Continuar" class="btn btn-primary" id="save"/>
             </div>
         </form>
     </div>
     
-    <div class="col-md-3" style="margin-left: 1rem; margin-right: 2rem" id="col2">
+    <div class="col-md-3" id="col2" style="margin-left: 2rem; margin-right: 2rem">
         <div class="row">
             <h4>Estoque da Loja</h4>
         </div>
@@ -67,7 +68,7 @@
         </div>
     </div> 
 
-    <div class="col-md-2" id="col4">
+    <div class="col-md-3" id="col4" style="margin-left: 2rem; margin-right: 2rem">
         <h4>Carrinho</h4>
         <table id="carrinho" class="tableitem table">
             <thead>
@@ -78,6 +79,9 @@
                 </tr>
             </thead>
         </table>
+        <div>
+            <p id="valor">Valor Total = </p>
+        </div>
     </div>
 
     <div class="col-md-1" id="col5">
@@ -95,21 +99,16 @@
         $('#col4').hide();
         $('#col5').hide();
         $('#loja').on('change', function() {
-            console.log("Cliente: ", $('#cliente').val());
             $('#col2').show();
-            $('#col3').show();
-            $('#col4').show();
-            $('#col5').show();
-            var Id = parseInt(this.value);
             $('#tabela').DataTable({
                 paging: false,
                 searching: false,
                 destroy: true,
                 'ajax': {
-                    'type': "POST",
+                    'type': "GET",
                     'url': "/Pedido/ListItens",
                     'dataType': "json",
-                    'data': {'lojaId': Id, 'cliente': $('#cliente').val()},
+                    'data': {'lojaId': $('#loja option:selected').val()},
                     'dataSrc': function (json) {
                         $('#produto').empty();
                         $('#produto').append(`<option>Selecione...</option>`);
@@ -126,7 +125,7 @@
                                 `<option value=${json[i].produto.id}>${json[i].produto.nome}</option>`
                             );
                         }
-                        console.log('Dados: ', json);
+                        console.log('Estoque: ', json);
                         return data;
                     }
                 },
@@ -136,56 +135,64 @@
                         {'data': 'quantidade'}
                 ]
             });
+        });
 
-            $('#produtoPedido').click(function() {
-                event.preventDefault();
-                $.ajax ({
+        var pedido;
+        $('#save').click(function() {
+            event.preventDefault();
+            $('#col1').hide();
+            $('#col3').show();
+            $('#col4').show();
+            $('#col5').show();
+            $.ajax ({
+                'type': "POST",
+                'url': "/Pedido/Save",
+                'dataType': "json",
+                'data': {
+                    'lojaId': $('#loja option:selected').val(),
+                    'cliente': $('#cliente').val(),
+                },
+                'success': function (json) {
+                    console.log("Pedido: ", json);
+                    pedido = json;
+                }
+            });
+        });
+
+        $('#produtoPedido').click(function() {
+            event.preventDefault();
+            $('#carrinho').DataTable({
+                paging: false,
+                searching: false,
+                ordering:  false,
+                destroy: true,
+                'ajax': {
                     'type': "POST",
                     'url': "/ProdutoPedido/CartAdd",
                     'dataType': "json",
                     'data': {
-                        'lojaId': Id,
-                        'cliente': $('#cliente').val(),
                         'Quantidade': $('#qtd').val(),
                         'ProdutoId': $('#produto option:selected').val(),
+                        'pedido': pedido
                     },
-                    'success': function (json) {
-                        console.log("Aqui: ", json);
+                    'dataSrc': function (json) {
+                        console.log("Carrinho: ", json);
+                        var data = new Array();
+                        for(var i = 0; i < json.length; i++){
+                            data.push({
+                                'produto'   : json[i].produto.nome,
+                                'valor'     : json[i].produto.valor,
+                                'quantidade': json[i].quantidade
+                            })
+                        }
+                        return data;
                     }
-                });
-
-                //$('#carrinho').DataTable({
-                //    paging: false,
-                //    searching: false,
-                //    destroy: true,
-                //    'ajax': {
-                //        'type': "POST",
-                //        'url': "/ProdutoPedido/CartAdd",
-                //        'dataType': "json",
-                //        'data': {
-                //            'lojaId': Id, 
-                //            'produto': $('#produto option:selected').text(), 
-                //            'quantidade': $('#qtd').val()
-                //        },
-                //        'dataSrc': function (json) {
-                //            console.log("JSON: ", json);
-                //            var data = new Array();
-                //            for(var i = 0; i < json.length; i++){
-                //                data.push({
-                //                    'produto'   : json[i].produto.nome,
-                //                    'valor'     : json[i].produto.valor,
-                //                    'quantidade': json[i].quantidade
-                //                })
-                //            }
-                //            return data;
-                //        }
-                //    },
-                //    'columns': [
-                //        {'data': 'produto'},
-                //        {'data': 'valor'},
-                //        {'data': 'quantidade'}
-                //    ]
-                //});
+                },
+                'columns': [
+                    {'data': 'produto'},
+                    {'data': 'valor'},
+                    {'data': 'quantidade'}
+                ]
             });
         });
     });

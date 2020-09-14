@@ -71,19 +71,32 @@ namespace Lojas.Controllers
             return View (pedido);
         }
 
-        public async Task<JsonResult> ListItens (int lojaId, [Bind ("Id,Cliente,LojaId")] Pedido pedido)
+        public async Task<JsonResult> ListItens (int lojaId)
         {
             var itens = await _context.Estoque
                 .Include (m => m.Loja)
                 .Include (m => m.Produto)
                 .Where (m => m.LojaId == lojaId).ToListAsync ();
+            return new JsonResult (itens);
+        }
 
+        public async Task<IActionResult> GetValor (int PedidoId)
+        {
+            var valor = await _context.Pedido
+                .Where (m => m.Id == PedidoId)
+                .Select (m => m.Valor).ToListAsync ();
+            ViewData["Valor"] = valor;
+            return View();
+        }
+
+        public async Task<JsonResult> Save ([Bind ("Id,Cliente,LojaId")] Pedido pedido)
+        {
             if (ModelState.IsValid)
             {
                 _context.Add (pedido);
                 await _context.SaveChangesAsync ();
             }
-            return new JsonResult (itens);
+            return new JsonResult (pedido);
         }
 
         // GET: Pedido/Edit/5

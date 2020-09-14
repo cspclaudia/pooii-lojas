@@ -57,31 +57,31 @@ namespace Lojas.Controllers
         // POST: ProdutoPedido/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create ([Bind ("Id,Quantidade,ProdutoId,PedidoId")] Produto_Pedido produto_Pedido)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add (produto_Pedido);
-                await _context.SaveChangesAsync ();
-                return RedirectToAction (nameof (Index));
-            }
-            ViewData["PedidoId"] = new SelectList (_context.Pedido, "Id", "Cliente", produto_Pedido.PedidoId);
-            ViewData["ProdutoId"] = new SelectList (_context.Produto, "Id", "Nome", produto_Pedido.ProdutoId);
-            return View (produto_Pedido);
-        }
+        // [HttpPost]
+        // [ValidateAntiForgeryToken]
+        // public async Task<IActionResult> Create ([Bind ("Id,Quantidade,ProdutoId,PedidoId")] Produto_Pedido produto_Pedido)
+        // {
+        //     if (ModelState.IsValid)
+        //     {
+        //         _context.Add (produto_Pedido);
+        //         await _context.SaveChangesAsync ();
+        //         return RedirectToAction (nameof (Index));
+        //     }
+        //     ViewData["PedidoId"] = new SelectList (_context.Pedido, "Id", "Cliente", produto_Pedido.PedidoId);
+        //     ViewData["ProdutoId"] = new SelectList (_context.Produto, "Id", "Nome", produto_Pedido.ProdutoId);
+        //     return View (produto_Pedido);
+        // }
 
-        public async Task<JsonResult> CartAdd (int lojaId, string cliente, [Bind ("Id,Quantidade,ProdutoId")] Produto_Pedido produto_Pedido)
+        public async Task<JsonResult> CartAdd (
+            [Bind ("Id,Quantidade,ProdutoId")] Produto_Pedido produto_Pedido,
+            [Bind ("Id,Cliente,Valor,LojaId")] Pedido pedido)
         {
             var itens = await _context.Estoque
-                .Where (m => m.LojaId == lojaId).ToListAsync ();
+                .Include (m => m.Produto)
+                .Where (m => m.LojaId == pedido.LojaId).ToListAsync ();
 
             Estoque itemEstoque = new Estoque ();
             itemEstoque = itens.Where (m => m.ProdutoId == produto_Pedido.ProdutoId).FirstOrDefault ();
-
-            var pedido = await _context.Pedido
-                .Where (m => m.Cliente == cliente).FirstAsync ();
 
             produto_Pedido.PedidoId = pedido.Id;
 
@@ -93,7 +93,16 @@ namespace Lojas.Controllers
                     var salvar = await _context.SaveChangesAsync ();
                 }
             }
-            return new JsonResult (produto_Pedido);
+
+            var carrinho = await _context.Produto_Pedido
+                .Include (m => m.Produto)
+                .Where (m => m.PedidoId == produto_Pedido.PedidoId).ToListAsync ();
+            
+            foreach (var item in carrinho)
+                pedido.Valor += item.Produto.Valor * item.Quantidade;
+                await _context.SaveChangesAsync ();
+
+            return new JsonResult (carrinho);
         }
 
         // GET: ProdutoPedido/Edit/5
