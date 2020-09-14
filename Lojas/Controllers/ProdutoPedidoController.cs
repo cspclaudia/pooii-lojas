@@ -73,8 +73,7 @@ namespace Lojas.Controllers
         // }
 
         public async Task<JsonResult> CartAdd (
-            [Bind ("Id,Quantidade,ProdutoId")] Produto_Pedido produto_Pedido,
-            [Bind ("Id,Cliente,Valor,LojaId")] Pedido pedido)
+            [Bind ("Id,Quantidade,ProdutoId")] Produto_Pedido produto_Pedido, [Bind ("Id,Cliente,Valor,LojaId")] Pedido pedido)
         {
             var itens = await _context.Estoque
                 .Include (m => m.Produto)
@@ -97,10 +96,12 @@ namespace Lojas.Controllers
             var carrinho = await _context.Produto_Pedido
                 .Include (m => m.Produto)
                 .Where (m => m.PedidoId == produto_Pedido.PedidoId).ToListAsync ();
-            
+
             foreach (var item in carrinho)
                 pedido.Valor += item.Produto.Valor * item.Quantidade;
-                await _context.SaveChangesAsync ();
+                
+            _context.Update (pedido);
+            await _context.SaveChangesAsync ();
 
             return new JsonResult (carrinho);
         }

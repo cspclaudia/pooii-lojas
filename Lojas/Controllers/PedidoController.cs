@@ -80,13 +80,12 @@ namespace Lojas.Controllers
             return new JsonResult (itens);
         }
 
-        public async Task<IActionResult> GetValor (int PedidoId)
+        public async Task<JsonResult> GetTotal (int PedidoId)
         {
             var valor = await _context.Pedido
                 .Where (m => m.Id == PedidoId)
                 .Select (m => m.Valor).ToListAsync ();
-            ViewData["Valor"] = valor;
-            return View();
+            return new JsonResult (valor);
         }
 
         public async Task<JsonResult> Save ([Bind ("Id,Cliente,LojaId")] Pedido pedido)
