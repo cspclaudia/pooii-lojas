@@ -14392,11 +14392,6 @@
   "RootNamespace": "Lojas",
   "Documents": [
     {
-      "FilePath": "c:\\Users\\cspcl\\Documents\\GitHub\\pooii-lojasCiA\\Lojas\\Views\\ProdutoPedido\\Delete.cshtml",
-      "TargetPath": "Views\\ProdutoPedido\\Delete.cshtml",
-      "FileKind": "mvc"
-    },
-    {
       "FilePath": "c:\\Users\\cspcl\\Documents\\GitHub\\pooii-lojasCiA\\Lojas\\Views\\Estoque\\Delete.cshtml",
       "TargetPath": "Views\\Estoque\\Delete.cshtml",
       "FileKind": "mvc"
@@ -14404,11 +14399,6 @@
     {
       "FilePath": "c:\\Users\\cspcl\\Documents\\GitHub\\pooii-lojasCiA\\Lojas\\Views\\Shared\\Error.cshtml",
       "TargetPath": "Views\\Shared\\Error.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "c:\\Users\\cspcl\\Documents\\GitHub\\pooii-lojasCiA\\Lojas\\Views\\Estoque\\Details.cshtml",
-      "TargetPath": "Views\\Estoque\\Details.cshtml",
       "FileKind": "mvc"
     },
     {
@@ -14422,11 +14412,6 @@
       "FileKind": "mvc"
     },
     {
-      "FilePath": "c:\\Users\\cspcl\\Documents\\GitHub\\pooii-lojasCiA\\Lojas\\Views\\ProdutoPedido\\Edit.cshtml",
-      "TargetPath": "Views\\ProdutoPedido\\Edit.cshtml",
-      "FileKind": "mvc"
-    },
-    {
       "FilePath": "c:\\Users\\cspcl\\Documents\\GitHub\\pooii-lojasCiA\\Lojas\\Views\\_ViewStart.cshtml",
       "TargetPath": "Views\\_ViewStart.cshtml",
       "FileKind": "mvc"
@@ -14434,11 +14419,6 @@
     {
       "FilePath": "c:\\Users\\cspcl\\Documents\\GitHub\\pooii-lojasCiA\\Lojas\\Views\\Loja\\Create.cshtml",
       "TargetPath": "Views\\Loja\\Create.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "c:\\Users\\cspcl\\Documents\\GitHub\\pooii-lojasCiA\\Lojas\\Views\\Pedido\\Edit.cshtml",
-      "TargetPath": "Views\\Pedido\\Edit.cshtml",
       "FileKind": "mvc"
     },
     {
@@ -14477,11 +14457,6 @@
       "FileKind": "mvc"
     },
     {
-      "FilePath": "c:\\Users\\cspcl\\Documents\\GitHub\\pooii-lojasCiA\\Lojas\\Views\\Entrega\\Details.cshtml",
-      "TargetPath": "Views\\Entrega\\Details.cshtml",
-      "FileKind": "mvc"
-    },
-    {
       "FilePath": "c:\\Users\\cspcl\\Documents\\GitHub\\pooii-lojasCiA\\Lojas\\Views\\Loja\\Delete.cshtml",
       "TargetPath": "Views\\Loja\\Delete.cshtml",
       "FileKind": "mvc"
@@ -14489,11 +14464,6 @@
     {
       "FilePath": "c:\\Users\\cspcl\\Documents\\GitHub\\pooii-lojasCiA\\Lojas\\Views\\Produto\\Edit.cshtml",
       "TargetPath": "Views\\Produto\\Edit.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "c:\\Users\\cspcl\\Documents\\GitHub\\pooii-lojasCiA\\Lojas\\Views\\ProdutoPedido\\Details.cshtml",
-      "TargetPath": "Views\\ProdutoPedido\\Details.cshtml",
       "FileKind": "mvc"
     },
     {
@@ -14532,28 +14502,13 @@
       "FileKind": "mvc"
     },
     {
-      "FilePath": "c:\\Users\\cspcl\\Documents\\GitHub\\pooii-lojasCiA\\Lojas\\Views\\ProdutoPedido\\Create.cshtml",
-      "TargetPath": "Views\\ProdutoPedido\\Create.cshtml",
-      "FileKind": "mvc"
-    },
-    {
       "FilePath": "c:\\Users\\cspcl\\Documents\\GitHub\\pooii-lojasCiA\\Lojas\\Views\\Produto\\Create.cshtml",
       "TargetPath": "Views\\Produto\\Create.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "c:\\Users\\cspcl\\Documents\\GitHub\\pooii-lojasCiA\\Lojas\\Views\\Loja\\Details.cshtml",
-      "TargetPath": "Views\\Loja\\Details.cshtml",
-      "FileKind": "mvc"
-    },
-    {
       "FilePath": "c:\\Users\\cspcl\\Documents\\GitHub\\pooii-lojasCiA\\Lojas\\Views\\Pedido\\Details.cshtml",
       "TargetPath": "Views\\Pedido\\Details.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "c:\\Users\\cspcl\\Documents\\GitHub\\pooii-lojasCiA\\Lojas\\Views\\Produto\\Details.cshtml",
-      "TargetPath": "Views\\Produto\\Details.cshtml",
       "FileKind": "mvc"
     },
     {

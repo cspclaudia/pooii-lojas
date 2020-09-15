@@ -26,26 +26,6 @@ namespace Lojas.Controllers
             return View(await lojasContext.ToListAsync());
         }
 
-        // GET: Estoque/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var estoque = await _context.Estoque
-                .Include(e => e.Loja)
-                .Include(e => e.Produto)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (estoque == null)
-            {
-                return NotFound();
-            }
-
-            return View(estoque);
-        }
-
         // GET: Estoque/Create
         public IActionResult Create()
         {
@@ -63,8 +43,8 @@ namespace Lojas.Controllers
         {
             if (ModelState.IsValid)
             {
-                var add = _context.Add(estoque);
-                var salvar = await _context.SaveChangesAsync();
+                _context.Add(estoque);
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             ViewData["LojaId"] = new SelectList(_context.Loja, "Id", "Nome", estoque.LojaId);

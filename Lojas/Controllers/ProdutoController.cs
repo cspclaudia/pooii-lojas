@@ -25,24 +25,6 @@ namespace Lojas.Controllers
             return View(await _context.Produto.ToListAsync());
         }
 
-        // GET: Produto/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var produto = await _context.Produto
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (produto == null)
-            {
-                return NotFound();
-            }
-
-            return View(produto);
-        }
-
         // GET: Produto/Create
         public IActionResult Create()
         {

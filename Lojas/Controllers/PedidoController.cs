@@ -53,24 +53,6 @@ namespace Lojas.Controllers
             return View ();
         }
 
-        // POST: Pedido/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create ([Bind ("Id,Cliente,Valor,LojaId")] Pedido pedido)
-        {
-            if (ModelState.IsValid)
-            {
-                pedido.Data = DateTime.Now;
-                _context.Add (pedido);
-                await _context.SaveChangesAsync ();
-                return RedirectToAction (nameof (Index));
-            }
-            ViewData["LojaId"] = new SelectList (_context.Loja, "Id", "Nome", pedido.LojaId);
-            return View (pedido);
-        }
-
         public async Task<JsonResult> ListItens (int lojaId)
         {
             var itens = await _context.Estoque
@@ -98,72 +80,6 @@ namespace Lojas.Controllers
             return new JsonResult (valor);
         }
         
-        // public async Task<JsonResult> Finish ([Bind ("Id,Cliente,LojaId")] Pedido pedido)
-        // {
-        //     if (ModelState.IsValid)
-        //     {
-        //         pedido.Data = DateTime.Now;
-
-        //         _context.Update (pedido);
-        //             await _context.SaveChangesAsync ();
-        //     }
-        //     return new JsonResult (pedido);
-        // }
-
-        // GET: Pedido/Edit/5
-        public async Task<IActionResult> Edit (int? id)
-        {
-            if (id == null)
-            {
-                return NotFound ();
-            }
-
-            var pedido = await _context.Pedido.FindAsync (id);
-            if (pedido == null)
-            {
-                return NotFound ();
-            }
-            ViewData["LojaId"] = new SelectList (_context.Loja, "Id", "Nome", pedido.LojaId);
-            return View (pedido);
-        }
-
-        // POST: Pedido/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Finish (int id, [Bind ("Id,Cliente,Data,Valor,LojaId")] Pedido pedido)
-        {
-            if (id != pedido.Id)
-            {
-                return NotFound ();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    pedido.Data = DateTime.Now;
-                    _context.Update (pedido);
-                    await _context.SaveChangesAsync ();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!PedidoExists (pedido.Id))
-                    {
-                        return NotFound ();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction (nameof (Index));
-            }
-            ViewData["LojaId"] = new SelectList (_context.Loja, "Id", "Nome", pedido.LojaId);
-            return View (pedido);
-        }
-
         // GET: Pedido/Delete/5
         public async Task<IActionResult> Delete (int? id)
         {

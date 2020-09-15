@@ -26,25 +26,6 @@ namespace Lojas.Controllers
             return View(await lojasContext.ToListAsync());
         }
 
-        // GET: Entrega/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var entrega = await _context.Entrega
-                .Include(e => e.Pedido)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (entrega == null)
-            {
-                return NotFound();
-            }
-
-            return View(entrega);
-        }
-
         // GET: Entrega/Create
         public IActionResult Create()
         {

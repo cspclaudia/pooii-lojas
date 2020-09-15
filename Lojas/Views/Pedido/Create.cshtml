@@ -24,7 +24,6 @@
                 </select>
             </div>
             <div>
-                <a asp-action="Index">Voltar</a><br>
                 <input type="submit" value="Continuar" class="btn btn-primary" id="save"/>
             </div>
         </form>
@@ -87,11 +86,10 @@
     <div class="col-md-1" id="col5">
         <a href="@Url.Action("Create", "Entrega")" class="btn btn-primary">Finalizar Pedido</a>
     </div>
-
 </div>
-<br>
-<div class="row" id="entrega">
-    <partial name="~/Views/Entrega/Create.cshtml"></partial>
+
+<div>
+    <br><a asp-action="Index">Voltar</a>
 </div>
 
 @section Scripts {
