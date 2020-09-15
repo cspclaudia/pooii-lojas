@@ -80,14 +80,6 @@ namespace Lojas.Controllers
             return new JsonResult (itens);
         }
 
-        public async Task<JsonResult> GetTotal (int PedidoId)
-        {
-            var valor = await _context.Pedido
-                .Where (m => m.Id == PedidoId)
-                .Select (m => m.Valor).ToListAsync ();
-            return new JsonResult (valor);
-        }
-
         public async Task<JsonResult> Save ([Bind ("Id,Cliente,LojaId")] Pedido pedido)
         {
             if (ModelState.IsValid)
@@ -97,6 +89,26 @@ namespace Lojas.Controllers
             }
             return new JsonResult (pedido);
         }
+
+        public async Task<JsonResult> GetTotal (int PedidoId)
+        {
+            var valor = await _context.Pedido
+                .Where (m => m.Id == PedidoId)
+                .Select (m => m.Valor).ToListAsync ();
+            return new JsonResult (valor);
+        }
+        
+        // public async Task<JsonResult> Finish ([Bind ("Id,Cliente,LojaId")] Pedido pedido)
+        // {
+        //     if (ModelState.IsValid)
+        //     {
+        //         pedido.Data = DateTime.Now;
+
+        //         _context.Update (pedido);
+        //             await _context.SaveChangesAsync ();
+        //     }
+        //     return new JsonResult (pedido);
+        // }
 
         // GET: Pedido/Edit/5
         public async Task<IActionResult> Edit (int? id)
@@ -120,7 +132,7 @@ namespace Lojas.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit (int id, [Bind ("Id,Cliente,Data,Valor,LojaId")] Pedido pedido)
+        public async Task<IActionResult> Finish (int id, [Bind ("Id,Cliente,Data,Valor,LojaId")] Pedido pedido)
         {
             if (id != pedido.Id)
             {
@@ -131,6 +143,7 @@ namespace Lojas.Controllers
             {
                 try
                 {
+                    pedido.Data = DateTime.Now;
                     _context.Update (pedido);
                     await _context.SaveChangesAsync ();
                 }

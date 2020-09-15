@@ -85,19 +85,26 @@
     </div>
 
     <div class="col-md-1" id="col5">
-        <input type="submit" value="Finalizar Pedido" class="btn btn-primary" />
+        <a href="@Url.Action("Create", "Entrega")" class="btn btn-primary">Finalizar Pedido</a>
     </div>
 
+</div>
+<br>
+<div class="row" id="entrega">
+    <partial name="~/Views/Entrega/Create.cshtml"></partial>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script type="text/javascript">
+
     $(document).ready(function () {
         $('#col2').hide();
         $('#col3').hide();
         $('#col4').hide();
         $('#col5').hide();
+        $('#entrega').hide();
+
         $('#loja').on('change', function() {
             $('#col2').show();
             $('#tabela').DataTable({
@@ -194,6 +201,7 @@
                     {'data': 'quantidade'}
                 ]
             });
+
             $('#valor').show(function() {
                 $.ajax ({
                     'type': "GET",
@@ -201,11 +209,35 @@
                     'dataType': "json",
                     'data': {'PedidoId': pedido.id},
                     'success': function (json) {
+                        pedido.valor = json[0];
                         $('#valor').html("Valor Total: " + json);
                     }
                 });
             });
         });
+
+        //$('#finish').click(function() {
+        //    $.ajax ({
+        //        'type': "POST",
+        //        'url': "/Pedido/Finish",
+        //        'dataType': "json",
+        //        'data': {'pedido': pedido},
+        //        'success': function (json) {
+        //            console.log("Pedido: ", json);
+        //            window.location.href = "/Entrega/Create";
+        //        }
+        //    });
+        //});
+
+        $('#finish').click(function(){
+            $('#col1').hide();
+            $('#col2').hide();
+            $('#col3').hide();
+            $('#col4').hide();
+            $('#col5').hide();
+            $('#entrega').show();
+        })
+
     });
     </script>
 }

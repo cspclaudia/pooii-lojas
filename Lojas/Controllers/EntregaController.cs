@@ -61,12 +61,15 @@ namespace Lojas.Controllers
         {
             if (ModelState.IsValid)
             {
+                entrega.PedidoId = await _context.Pedido
+                    .Select(m => m.Id).MaxAsync();
+
                 _context.Add(entrega);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             ViewData["PedidoId"] = new SelectList(_context.Pedido, "Id", "Cliente", entrega.PedidoId);
-            return View(entrega);
+            return View (entrega);
         }
 
         // GET: Entrega/Edit/5
