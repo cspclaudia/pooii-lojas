@@ -49,7 +49,6 @@
 
     <div class="col-md-3" id="col3">
         <div>
-            @* <partial name="~/Views/ProdutoPedido/Create.cshtml"> *@
             <form>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -190,6 +189,7 @@
                                 'quantidade': json[i].quantidade
                             })
                         }
+                        valorTotal();
                         return data;
                     }
                 },
@@ -199,43 +199,23 @@
                     {'data': 'quantidade'}
                 ]
             });
-
-            $('#valor').show(function() {
-                $.ajax ({
-                    'type': "GET",
-                    'url': "/Pedido/GetTotal",
-                    'dataType': "json",
-                    'data': {'PedidoId': pedido.id},
-                    'success': function (json) {
-                        pedido.valor = json[0];
-                        $('#valor').html("Valor Total: " + json);
-                    }
-                });
-            });
         });
 
-        //$('#finish').click(function() {
-        //    $.ajax ({
-        //        'type': "POST",
-        //        'url': "/Pedido/Finish",
-        //        'dataType': "json",
-        //        'data': {'pedido': pedido},
-        //        'success': function (json) {
-        //            console.log("Pedido: ", json);
-        //            window.location.href = "/Entrega/Create";
-        //        }
-        //    });
-        //});
-
-        $('#finish').click(function(){
-            $('#col1').hide();
-            $('#col2').hide();
-            $('#col3').hide();
-            $('#col4').hide();
-            $('#col5').hide();
-            $('#entrega').show();
-        })
-
+        function valorTotal() {
+            var request = $.ajax ({
+                'type': "GET",
+                'url': "/Pedido/GetTotal",
+                'dataType': "json",
+                'data': {'PedidoId': pedido.id}
+            });
+            
+            request.done(function(data){
+                $('#valor').html("Valor Total: " + data);
+                console.log("Data: ", data);
+            }).fail(function(erro){
+                console.log("Erro: ", erro);
+            });
+        }
     });
     </script>
 }

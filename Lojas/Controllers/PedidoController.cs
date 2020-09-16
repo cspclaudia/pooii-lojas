@@ -26,7 +26,7 @@ namespace Lojas.Controllers
             return View (await lojasContext.ToListAsync ());
         }
 
-        // GET: Pedido/Details/5
+        // GET: ProdutoPedido/Details/5
         public async Task<IActionResult> Details (int? id)
         {
             if (id == null)
@@ -34,15 +34,16 @@ namespace Lojas.Controllers
                 return NotFound ();
             }
 
-            var pedido = await _context.Pedido
-                .Include (p => p.Loja)
-                .FirstOrDefaultAsync (m => m.Id == id);
-            if (pedido == null)
+            var produto_Pedido = await _context.Produto_Pedido
+                .Include (p => p.Pedido)
+                .Include (p => p.Produto)
+                .Where (m => m.PedidoId == id).ToListAsync();
+            if (produto_Pedido == null)
             {
                 return NotFound ();
             }
 
-            return View (pedido);
+            return View (produto_Pedido);
         }
 
         // GET: Pedido/Create

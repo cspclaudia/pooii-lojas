@@ -606,4 +606,3 @@ C:\Users\cspcl\Documents\GitHub\pooii-lojasCiA\Lojas\obj\Debug\netcoreapp3.1\sta
 C:\Users\cspcl\Documents\GitHub\pooii-lojasCiA\Lojas\obj\Debug\netcoreapp3.1\Lojas.dll
 C:\Users\cspcl\Documents\GitHub\pooii-lojasCiA\Lojas\obj\Debug\netcoreapp3.1\Lojas.pdb
 C:\Users\cspcl\Documents\GitHub\pooii-lojasCiA\Lojas\obj\Debug\netcoreapp3.1\Lojas.genruntimeconfig.cache
-C:\Users\cspcl\Documents\GitHub\pooii-lojasCiA\Lojas\obj\Debug\netcoreapp3.1\Razor\Views\ProdutoPedido\Index.cshtml.g.cs

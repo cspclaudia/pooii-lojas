@@ -56,3 +56,59 @@
 }
     </tbody>
 </table>
+
+<table id="tabela" class="tableitem table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>PedidoId</th>
+            <th>Produto</th>
+            <th>Valor</th>
+            <th>Quantidade</th>
+        </tr>
+    </thead>
+</table>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('#tabela').hide();
+            $('#detalhes').click(function() {
+                $('#tabela').show();
+                $('#tabela').DataTable({
+                    paging: false,
+                    searching: false,
+                    destroy: true,
+                    'ajax': {
+                        'type': "GET",
+                        'url': "/Pedido/Details",
+                        'dataType': "json",
+                        'data': {'ProdutoId': model.Id},
+                        'dataSrc': function (json) {
+                            var data = new Array();
+                            for(var i = 0; i < json.length; i++){
+                                data.push({
+                                    'id'   : json[i].id,
+                                    'pedidoId'      : json[i].pedido.id,
+                                    'produtoNome'   : json[i].produto.nome,
+                                    'produtoValor'  : json[i].pedido.valor,
+                                    'quantidade'    : json[i].quantidade,
+                                })
+                            }
+                            return data;
+                        }
+                    },
+                    'columns': [
+                            {'data': 'id'},
+                            {'data': 'pedidoId'},
+                            {'data': 'produtoNome'},
+                            {'data': 'produtoValor'},
+                            {'data': 'quantidade'}
+                    ],
+                });
+            });
+        });
+    </script>
+}
