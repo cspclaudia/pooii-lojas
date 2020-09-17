@@ -30,23 +30,38 @@ namespace Lojas.Controllers
             [Bind ("Id,Quantidade,ProdutoId")] Produto_Pedido produto_Pedido, 
             [Bind ("Id,Cliente,Valor,LojaId")] Pedido pedido)
         {
-            var itens = await _context.Estoque
-                .Include (m => m.Produto)
-                .Where (m => m.LojaId == pedido.LojaId).ToListAsync ();
-
             Estoque itemEstoque = new Estoque ();
-            itemEstoque = itens.Where (m => m.ProdutoId == produto_Pedido.ProdutoId).FirstOrDefault ();
+            itemEstoque = _context.Estoque
+                .Include (m => m.Produto)
+                .Where (m => ((m.LojaId == pedido.LojaId) & (m.ProdutoId == produto_Pedido.ProdutoId))).FirstOrDefault ();
 
             produto_Pedido.PedidoId = pedido.Id;
 
-            if (produto_Pedido != null && produto_Pedido.Quantidade <= itemEstoque.Quantidade)
+            Produto_Pedido itemCarrinho = new Produto_Pedido();
+            itemCarrinho = _context.Produto_Pedido
+                .Include (m => m.Produto)
+                .Where (m => ((m.PedidoId == pedido.Id) & (m.ProdutoId == produto_Pedido.ProdutoId))).FirstOrDefault ();
+
+            if (itemCarrinho != null && produto_Pedido.Quantidade <= itemEstoque.Quantidade) 
+            {
+                if (ModelState.IsValid)
+                {
+                    itemCarrinho.Quantidade += produto_Pedido.Quantidade;
+                    _context.Update (itemCarrinho);
+                    await _context.SaveChangesAsync ();
+                }
+                itemEstoque.Quantidade -= produto_Pedido.Quantidade;
+                _context.Update (itemEstoque);
+                await _context.SaveChangesAsync ();
+            }
+
+            else if (itemCarrinho == null && produto_Pedido.Quantidade <= itemEstoque.Quantidade)
             {
                 if (ModelState.IsValid)
                 {
                     _context.Add (produto_Pedido);
                     await _context.SaveChangesAsync ();
                 }
-
                 itemEstoque.Quantidade -= produto_Pedido.Quantidade;
                 _context.Update (itemEstoque);
                 await _context.SaveChangesAsync ();
