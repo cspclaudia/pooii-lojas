@@ -4,7 +4,9 @@
     ViewData["Title"] = "Home Page";
 }
 
-<p id="rData"></p><div class="text-center">
+<p id="rData"></p>
+
+<div class="text-center">
     <h1 class="display-4">MENU</h1><br>
     <p>
         <a href="../Loja/Index">1- Gerenciar Lojas</a>
@@ -13,7 +15,7 @@
         <a href="../Produto/Index">2- Gerenciar Produtos</a>
     </p>
     <p>
-        <a href="../Estoque/Index">3- Gerenciar Estoque</a>
+        <a href="../Estoque/Index">3- Gerenciar Estoques</a>
     </p>
     <p>
         <a href="../Pedido/Index">4- Gerenciar Pedidos</a>
@@ -21,7 +23,7 @@
     <p>
         <a href="../Entrega/Index">5- Gerenciar Entregas</a>
     </p>
-    </div>
+</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

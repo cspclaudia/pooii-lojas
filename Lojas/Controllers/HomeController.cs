@@ -23,10 +23,11 @@ namespace Lojas.Controllers
             return View ();
         }
 
-        public string DataHoraAtual()
+        public string DataHoraAtual ()
         {
-            return DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss");
+            return DateTime.Now.ToString ("dd/MM/yyyy hh:mm");
         }
+
         public IActionResult Privacy ()
         {
             return View ();

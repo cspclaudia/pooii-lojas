@@ -37,7 +37,7 @@ namespace Lojas.Controllers
             var produto_Pedido = await _context.Produto_Pedido
                 .Include (p => p.Pedido)
                 .Include (p => p.Produto)
-                .Where (m => m.PedidoId == id).ToListAsync();
+                .Where (m => m.PedidoId == id).ToListAsync ();
             if (produto_Pedido == null)
             {
                 return NotFound ();
@@ -80,7 +80,7 @@ namespace Lojas.Controllers
                 .Select (m => m.Valor).ToListAsync ();
             return new JsonResult (valor);
         }
-        
+
         // GET: Pedido/Delete/5
         public async Task<IActionResult> Delete (int? id)
         {

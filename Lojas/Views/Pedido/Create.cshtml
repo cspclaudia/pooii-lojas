@@ -83,12 +83,8 @@
     </div>
 
     <div class="col-md-1" id="col5">
-        <a href="@Url.Action("Create", "Entrega")" class="btn btn-primary">Finalizar Pedido</a>
+        <a href="@Url.Action("Create", "Entrega")" class="btn btn-primary">Despachar Pedido</a>
     </div>
-</div>
-
-<div>
-    <br><a asp-action="Index">Voltar</a>
 </div>
 
 @section Scripts {
@@ -129,7 +125,6 @@
                                 `<option value=${json[i].produto.id}>${json[i].produto.nome}</option>`
                             );
                         }
-                        console.log('Estoque: ', json);
                         return data;
                     }
                 },
@@ -157,7 +152,6 @@
                     'cliente': $('#cliente').val(),
                 },
                 'success': function (json) {
-                    console.log("Pedido: ", json);
                     pedido = json;
                 }
             });
@@ -180,7 +174,6 @@
                         'pedido': pedido
                     },
                     'dataSrc': function (json) {
-                        console.log("Carrinho: ", json);
                         var data = new Array();
                         for(var i = 0; i < json.length; i++){
                             data.push({
@@ -211,7 +204,6 @@
             
             request.done(function(data){
                 $('#valor').html("Valor Total: " + data);
-                console.log("Data: ", data);
             }).fail(function(erro){
                 console.log("Erro: ", erro);
             });
